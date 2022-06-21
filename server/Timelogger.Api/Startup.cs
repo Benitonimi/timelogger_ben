@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
 using Timelogger.Entities;
+using System.Collections.Generic;
 
 namespace Timelogger.Api
 {
@@ -57,6 +58,7 @@ namespace Timelogger.Api
 			}
 
 			app.UseMvc();
+			app.UseCors();
 
 
 			var serviceScopeFactory = app.ApplicationServices.GetService<IServiceScopeFactory>();
@@ -69,13 +71,15 @@ namespace Timelogger.Api
 		private static void SeedDatabase(IServiceScope scope)
 		{
 			var context = scope.ServiceProvider.GetService<ApiContext>();
-			var testProject1 = new Project
+			var testProject1 = new List<Project>()
 			{
-				Id = 1,
-				Name = "e-conomic Interview"
+				new Project { Id = 1, Name = "project 1" },
+				new Project { Id = 2, Name = "project 2" },
+				new Project { Id = 3, Name = "project 3" },
+				new Project { Id = 4, Name = "project 4" },
 			};
 
-			context.Projects.Add(testProject1);
+			testProject1.ForEach(x => context.Projects.Add(x));
 
 			context.SaveChanges();
 		}
