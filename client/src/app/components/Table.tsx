@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import agent from '../api/projects';
 import { Project } from '../models/project';
 

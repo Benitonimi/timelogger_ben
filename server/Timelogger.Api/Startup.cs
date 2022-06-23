@@ -31,7 +31,7 @@ namespace Timelogger.Api
 		public void ConfigureServices(IServiceCollection services)
 		{
 			// Add framework services.
-			services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase("e-conomic interview"));
+			services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase("Benito In-house"));
 			services.AddLogging(builder =>
 			{
 				builder.AddConsole();
