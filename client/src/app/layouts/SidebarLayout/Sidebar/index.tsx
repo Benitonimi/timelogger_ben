@@ -9,7 +9,7 @@ import {
   styled,
   Divider,
   useTheme,
-  Button,
+  // Button,
   lighten,
   darken
 } from '@mui/material';
@@ -78,7 +78,7 @@ function Sidebar() {
             background: theme.colors.alpha.trueWhite[10]
           }}
         />
-        <Box p={2}>
+        {/* <Box p={2}>
           <Button
             href="https://bloomui.com"
             target="_blank"
@@ -90,7 +90,7 @@ function Sidebar() {
           >
             Upgrade to PRO
           </Button>
-        </Box>
+        </Box> */}
       </SidebarWrapper>
       <Drawer
         sx={{

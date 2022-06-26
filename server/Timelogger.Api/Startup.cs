@@ -7,10 +7,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
 using Timelogger.Entities;
 using System.Collections.Generic;
+using Timelogger.Repositories;
 
 namespace Timelogger.Api
 {
-	public class Startup
+    public class Startup
 	{
 		private readonly IWebHostEnvironment _environment;
 		public IConfigurationRoot Configuration { get; }
@@ -31,14 +32,16 @@ namespace Timelogger.Api
 		public void ConfigureServices(IServiceCollection services)
 		{
 			// Add framework services.
-			services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase("Benito In-house"));
 			services.AddLogging(builder =>
 			{
 				builder.AddConsole();
 				builder.AddDebug();
 			});
 
+			services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase("Benito In-house"));
 			services.AddMvc(options => options.EnableEndpointRouting = false);
+
+			services.AddTransient<IProjectRepo, ProjectRepo>();
 
 			if (_environment.IsDevelopment())
 			{
@@ -61,6 +64,7 @@ namespace Timelogger.Api
 			app.UseCors();
 
 
+
 			var serviceScopeFactory = app.ApplicationServices.GetService<IServiceScopeFactory>();
 			using (var scope = serviceScopeFactory.CreateScope())
 			{
@@ -71,15 +75,20 @@ namespace Timelogger.Api
 		private static void SeedDatabase(IServiceScope scope)
 		{
 			var context = scope.ServiceProvider.GetService<ApiContext>();
-			var testProject1 = new List<Project>()
+			var projects = new List<Project>()
 			{
-				new Project { Id = 1, Name = "project 1" },
-				new Project { Id = 2, Name = "project 2" },
-				new Project { Id = 3, Name = "project 3" },
-				new Project { Id = 4, Name = "project 4" },
+				new Project { Id = 1, Name = "project 1", Description= "Computer Programming", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = 2009.12 },
+				new Project { Id = 2, Name = "project 2", Description= "IT Revolution", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = 2009.12 },
+				new Project { Id = 3, Name = "project 3", Description= "Computer Architecture and Organisation", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = 2009.12 },
+				new Project { Id = 4, Name = "project 4", Description= "Database Systems", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = 2009.12 },
+				new Project { Id = 5, Name = "project 5", Description= "Operating Systems", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = 2009.12 },
+				new Project { Id = 6, Name = "project 6", Description= "Foundations of Computer Systems", Status = "pending", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = 2009.12 },
+				new Project { Id = 7, Name = "project 7", Description= "Computer Networks", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = 2009.12 },
+				new Project { Id = 8, Name = "project 8", Description= "Multimedia Applications", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = 2009.12 },
+				new Project { Id = 9, Name = "project 9", Description= "Information Technology", Status = "pending", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = 2009.12 },
 			};
 
-			testProject1.ForEach(x => context.Projects.Add(x));
+			projects.ForEach(x => context.Projects.Add(x));
 
 			context.SaveChanges();
 		}

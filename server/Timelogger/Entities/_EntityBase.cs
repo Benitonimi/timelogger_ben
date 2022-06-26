@@ -24,28 +24,16 @@ namespace Timelogger.Entities
 
         public partial class EntityBase : IEntityBase
         {
-            public EntityBase()
-            {
-                this.CreatedUtc = DateTime.UtcNow;
-                this.CreatedById = 1;
-                this.UpdatedUtc = DateTime.UtcNow;
-                this.UpdatedById = 1;
-                this.Deleted = false;
-            }
 
-            [Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-            [Column(TypeName = "DateTime2")]
-            public DateTime CreatedUtc { get; set; }
+            public DateTime CreatedUtc { get; set; } = DateTime.UtcNow;
 
-            public int CreatedById { get; set; }
+            public int CreatedById { get; set; } = 1;
 
-            [Required]
-            [Column(TypeName = "DateTime2")]
-            public DateTime UpdatedUtc { get; set; }
+            public DateTime UpdatedUtc { get; set; } = DateTime.UtcNow;
 
-            public int UpdatedById { get; set; }
+            public int UpdatedById { get; set; } = 1;
 
-            public bool Deleted { get; set; }
+            public bool Deleted { get; set; } = false;
         }
 
     }

@@ -3,7 +3,6 @@ import { Navigate } from 'react-router-dom';
 import { RouteObject } from 'react-router';
 
 import SidebarLayout from 'src/app/layouts/SidebarLayout';
-import BaseLayout from 'src/app/layouts/BaseLayout';
 
 import SuspenseLoader from 'src/app/components/SuspenseLoader';
 
@@ -16,7 +15,6 @@ const Loader = (Component: any) => (props: any) =>
 
 // Pages
 
-const Overview = Loader(lazy(() => import('src/app/views/overview')));
 
 // Dashboards
 
@@ -79,11 +77,11 @@ const StatusMaintenance = Loader(
 const routes: RouteObject[] = [
   {
     path: '',
-    element: <BaseLayout />,
+    element: <SidebarLayout />,
     children: [
       {
         path: '/',
-        element: <Overview />
+        element: <Crypto />
       },
       {
         path: 'overview',

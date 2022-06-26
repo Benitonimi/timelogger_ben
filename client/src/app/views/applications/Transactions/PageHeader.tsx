@@ -5,7 +5,7 @@ import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 
 function PageHeader() {
   const user = {
-    name: 'Catherine Pike',
+    name: 'Benito Ponappan ',
     avatar: '/static/images/avatars/1.jpg'
   };
   return (

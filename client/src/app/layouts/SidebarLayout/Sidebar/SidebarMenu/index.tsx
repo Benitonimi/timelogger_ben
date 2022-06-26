@@ -295,7 +295,7 @@ function SidebarMenu() {
           component="div"
           subheader={
             <ListSubheader component="div" disableSticky>
-              Components
+              Manage
             </ListSubheader>
           }
         >
@@ -309,7 +309,7 @@ function SidebarMenu() {
                   to="/components/buttons"
                   startIcon={<BallotTwoToneIcon />}
                 >
-                  Buttons
+                  Projects
                 </Button>
               </ListItem>
               <ListItem component="div">
@@ -320,7 +320,7 @@ function SidebarMenu() {
                   to="/components/modals"
                   startIcon={<BeachAccessTwoToneIcon />}
                 >
-                  Modals
+                  Team
                 </Button>
               </ListItem>
               <ListItem component="div">
@@ -331,7 +331,7 @@ function SidebarMenu() {
                   to="/components/accordions"
                   startIcon={<EmojiEventsTwoToneIcon />}
                 >
-                  Accordions
+                  Clients
                 </Button>
               </ListItem>
               <ListItem component="div">

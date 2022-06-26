@@ -26,21 +26,23 @@ import {
 } from '@mui/material';
 
 import Label from 'src/app/components/Label';
-import { CryptoOrder, CryptoOrderStatus } from 'src/app/models/crypto_order';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
+import { Project, ProjectStatus } from 'src/app/models/project';
+import { SelectChangeEvent } from '@mui/material/Select';
 
 interface RecentOrdersTableProps {
   className?: string;
-  cryptoOrders: CryptoOrder[];
+  projects: Project[];
 }
+
 
 interface Filters {
-  status?: CryptoOrderStatus;
+  status?: ProjectStatus;
 }
 
-const getStatusLabel = (cryptoOrderStatus: CryptoOrderStatus): JSX.Element => {
+const getStatusLabel = (projectStatus: ProjectStatus): JSX.Element => {
   const map = {
     failed: {
       text: 'Failed',
@@ -56,19 +58,20 @@ const getStatusLabel = (cryptoOrderStatus: CryptoOrderStatus): JSX.Element => {
     }
   };
 
-  const { text, color }: any = map[cryptoOrderStatus];
+  const { text, color }: any = map[projectStatus];
 
   return <Label color={color}>{text}</Label>;
 };
 
+
 const applyFilters = (
-  cryptoOrders: CryptoOrder[],
+  projects: Project[],
   filters: Filters
-): CryptoOrder[] => {
-  return cryptoOrders.filter((cryptoOrder) => {
+): Project[] => {
+  return projects.filter((project) => {
     let matches = true;
 
-    if (filters.status && cryptoOrder.status !== filters.status) {
+    if (filters.status && project.status !== filters.status) {
       matches = false;
     }
 
@@ -77,22 +80,23 @@ const applyFilters = (
 };
 
 const applyPagination = (
-  cryptoOrders: CryptoOrder[],
+  projects: Project[],
   page: number,
   limit: number
-): CryptoOrder[] => {
-  return cryptoOrders.slice(page * limit, page * limit + limit);
+): Project[] => {
+  return projects.slice(page * limit, page * limit + limit);
 };
 
-const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
-  const [selectedCryptoOrders, setSelectedCryptoOrders] = useState<string[]>(
+const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ projects }) => {
+  console.log('ProjectLength : ===>' + projects.length);
+  const [selectedProjects, setSelectedProjects] = useState<number[]>(
     []
   );
-  const selectedBulkActions = selectedCryptoOrders.length > 0;
+  const selectedBulkActions = selectedProjects.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   
-  const [filters, _setFilters] = useState<Filters>({
+  const [filters, setFilters] = useState<Filters>({
     status: 'completed'
   });
 
@@ -115,8 +119,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
     }
   ];
 
-  /*const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    let value:any = null;
+  const handleStatusChange = (
+    e: SelectChangeEvent
+    ): void => {
+    let value: any = null;
 
     if (e.target.value !== 'all') {
       value = e.target.value;
@@ -126,30 +132,30 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
       ...prevFilters,
       status: value
     }));
-  };*/
+  };
 
-  const handleSelectAllCryptoOrders = (
+  const handleSelectAllProjects = (
     event: ChangeEvent<HTMLInputElement>
   ): void => {
-    setSelectedCryptoOrders(
+    setSelectedProjects(
       event.target.checked
-        ? cryptoOrders.map((cryptoOrder) => cryptoOrder.id)
+        ? projects.map((project) => project.id)
         : []
     );
   };
 
-  const handleSelectOneCryptoOrder = (
+  const handleSelectOneProject = (
     _event: ChangeEvent<HTMLInputElement>,
-    cryptoOrderId: string
+    projectId: number
   ): void => {
-    if (!selectedCryptoOrders.includes(cryptoOrderId)) {
-      setSelectedCryptoOrders((prevSelected) => [
+    if (!selectedProjects.includes(projectId)) {
+      setSelectedProjects((prevSelected) => [
         ...prevSelected,
-        cryptoOrderId
+        projectId
       ]);
     } else {
-      setSelectedCryptoOrders((prevSelected) =>
-        prevSelected.filter((id) => id !== cryptoOrderId)
+      setSelectedProjects((prevSelected) =>
+        prevSelected.filter((id) => id !== projectId)
       );
     }
   };
@@ -162,17 +168,17 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredCryptoOrders = applyFilters(cryptoOrders, filters);
-  const paginatedCryptoOrders = applyPagination(
-    filteredCryptoOrders,
+  const filteredProjects = applyFilters(projects, filters);
+  const paginatedProjects = applyPagination(
+    filteredProjects,
     page,
     limit
   );
-  const selectedSomeCryptoOrders =
-    selectedCryptoOrders.length > 0 &&
-    selectedCryptoOrders.length < cryptoOrders.length;
-  const selectedAllCryptoOrders =
-    selectedCryptoOrders.length === cryptoOrders.length;
+  const selectedSomeProjects =
+    selectedProjects.length > 0 &&
+    selectedProjects.length < projects.length;
+  const selectedAllProjects =
+    selectedProjects.length === projects.length;
   const theme = useTheme();
 
   return (
@@ -190,9 +196,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                 <InputLabel>Status</InputLabel>
                 <Select
                   value={filters.status || 'all'}
-                  /*{onChange={handleStatusChange}}*/
-                  label="Status"
+                  onChange={handleStatusChange}
                   autoWidth
+                  label="Status"
                 >
                   {statusOptions.map((statusOption) => (
                     <MenuItem key={statusOption.id} value={statusOption.id}>
@@ -214,9 +220,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
               <TableCell padding="checkbox">
                 <Checkbox
                   color="primary"
-                  checked={selectedAllCryptoOrders}
-                  indeterminate={selectedSomeCryptoOrders}
-                  onChange={handleSelectAllCryptoOrders}
+                  checked={selectedAllProjects}
+                  indeterminate={selectedSomeProjects}
+                  onChange={handleSelectAllProjects}
                 />
               </TableCell>
               <TableCell>Order Details</TableCell>
@@ -228,24 +234,24 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedCryptoOrders.map((cryptoOrder) => {
-              const isCryptoOrderSelected = selectedCryptoOrders.includes(
-                cryptoOrder.id
+            {paginatedProjects.map((project) => {
+              const isProjectSelected = selectedProjects.includes(
+                project.id
               );
               return (
                 <TableRow
                   hover
-                  key={cryptoOrder.id}
-                  selected={isCryptoOrderSelected}
+                  key={project.id}
+                  selected={isProjectSelected}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
                       color="primary"
-                      checked={isCryptoOrderSelected}
+                      checked={isProjectSelected}
                       onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        handleSelectOneCryptoOrder(event, cryptoOrder.id)
+                        handleSelectOneProject(event, project.id)
                       }
-                      value={isCryptoOrderSelected}
+                      value={isProjectSelected}
                     />
                   </TableCell>
                   <TableCell>
@@ -256,10 +262,12 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.orderDetails}
+                      {project.description}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {format(cryptoOrder.orderDate, 'MMMM dd yyyy')}
+                      {/* {format(project.startDate, 'MMMM dd yyyy')}  */}
+                      {/* TO-DO */}
+                      {format(1468959781804, 'MMMM dd yyyy')} 
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -270,7 +278,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.orderID}
+                      {project.id}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -281,10 +289,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.sourceName}
+                      {project.name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {cryptoOrder.sourceDesc}
+                      {project.description}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
@@ -295,17 +303,17 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.amountCrypto}
-                      {cryptoOrder.cryptoCurrency}
+                      {project.currency}
+                      {project.currency}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {numeral(cryptoOrder.amount).format(
-                        `${cryptoOrder.currency}0,0.00`
+                      {numeral(project.currency).format(
+                        `${project.currency}0,0.00`
                       )}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
-                    {getStatusLabel(cryptoOrder.status)}
+                    {getStatusLabel(project.status)}
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>
@@ -344,7 +352,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
       <Box p={2}>
         <TablePagination
           component="div"
-          count={filteredCryptoOrders.length}
+          count={filteredProjects.length}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}
@@ -357,11 +365,11 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
 };
 
 RecentOrdersTable.propTypes = {
-  cryptoOrders: PropTypes.array.isRequired
+  projects: PropTypes.array.isRequired
 };
 
 RecentOrdersTable.defaultProps = {
-  cryptoOrders: []
+  projects: []
 };
 
 export default RecentOrdersTable;
