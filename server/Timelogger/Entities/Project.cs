@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Timelogger.Entities
 {
@@ -12,7 +13,7 @@ namespace Timelogger.Entities
 		[JsonProperty("description")]
 		public string Description { get; set; }
 		[JsonProperty("activity")]
-		public Activity Activity { get; set; }
+		public ICollection<Activity> Activity { get; set; }
 		[JsonProperty("status")]
 		public string Status { get; set; }
 		[JsonProperty("startDate")]
