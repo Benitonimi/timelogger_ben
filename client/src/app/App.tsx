@@ -24,21 +24,24 @@ export default function App() {
 import { useRoutes } from 'react-router-dom';
 import router from 'src/router';
 
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
+/* import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider'; */
+
+import DateFnsUtils from '@date-io/date-fns';
 
 import { CssBaseline } from '@mui/material';
 import ThemeProvider from './theme/ThemeProvider';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 function App() {
   const content = useRoutes(router);
 
   return (
     <ThemeProvider>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <CssBaseline />
         {content}
-      </LocalizationProvider>
+        </MuiPickersUtilsProvider>
     </ThemeProvider>
   );
 }

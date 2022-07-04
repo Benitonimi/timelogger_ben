@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import agent from '../api/projects';
+import agentProject from '../api/projects';
 import { Project } from '../models/project';
 
 export default function Table() {
 	const [projects, setProjects] = useState<Project[]>([]);
 
     useEffect(()=> {
-        agent.Projects.list().then(response => {
+        agentProject.Projects.list().then(response => {
             // console.log(response);
             setProjects(response);
         })

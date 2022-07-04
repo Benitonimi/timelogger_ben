@@ -32,7 +32,7 @@ import BulkActions from './BulkActions';
 import { Project, ProjectStatus } from 'src/app/models/project';
 import { SelectChangeEvent } from '@mui/material/Select';
 
-interface RecentOrdersTableProps {
+export interface RecentProjectsTableProps {
   className?: string;
   projects: Project[];
 }
@@ -87,9 +87,9 @@ const applyPagination = (
   return projects.slice(page * limit, page * limit + limit);
 };
 
-const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ projects }) => {
+const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
   console.log('ProjectLength : ===>' + projects.length);
-  const [selectedProjects, setSelectedProjects] = useState<number[]>(
+  const [selectedProjects, setSelectedProjects] = useState<string[]>(
     []
   );
   const selectedBulkActions = selectedProjects.length > 0;
@@ -146,7 +146,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ projects }) => {
 
   const handleSelectOneProject = (
     _event: ChangeEvent<HTMLInputElement>,
-    projectId: number
+    projectId: string
   ): void => {
     if (!selectedProjects.includes(projectId)) {
       setSelectedProjects((prevSelected) => [
@@ -209,7 +209,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ projects }) => {
               </FormControl>
             </Box>
           }
-          title="Recent Orders"
+          title="Recent Projects"
         />
       )}
       <Divider />
@@ -226,7 +226,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ projects }) => {
                 />
               </TableCell>
               <TableCell>Order Details</TableCell>
-              <TableCell>Order ID</TableCell>
+              {/* <TableCell>Order ID</TableCell> */}
               <TableCell>Source</TableCell>
               <TableCell align="right">Amount</TableCell>
               <TableCell align="right">Status</TableCell>
@@ -270,7 +270,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ projects }) => {
                       {format(1468959781804, 'MMMM dd yyyy')} 
                     </Typography>
                   </TableCell>
-                  <TableCell>
+                  {/* <TableCell>
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -280,7 +280,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ projects }) => {
                     >
                       {project.id}
                     </Typography>
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>
                     <Typography
                       variant="body1"
@@ -364,12 +364,12 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ projects }) => {
   );
 };
 
-RecentOrdersTable.propTypes = {
+RecentProjectsTable.propTypes = {
   projects: PropTypes.array.isRequired
 };
 
-RecentOrdersTable.defaultProps = {
+RecentProjectsTable.defaultProps = {
   projects: []
 };
 
-export default RecentOrdersTable;
+export default RecentProjectsTable;

@@ -39,6 +39,7 @@ namespace Timelogger.Api
 			});
 
 			services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase("Benito In-house"));
+			services.AddControllers().AddNewtonsoftJson();
 			services.AddMvc(options => options.EnableEndpointRouting = false);
 
 			services.AddTransient<IProjectRepo, ProjectRepo>();
@@ -77,15 +78,15 @@ namespace Timelogger.Api
 			var context = scope.ServiceProvider.GetService<ApiContext>();
 			var projects = new List<Project>()
 			{
-				new Project { Id = 1, Name = "project 1", Description= "Computer Programming", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = 2009.12 },
-				new Project { Id = 2, Name = "project 2", Description= "IT Revolution", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = 2009.12 },
-				new Project { Id = 3, Name = "project 3", Description= "Computer Architecture and Organisation", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = 2009.12 },
-				new Project { Id = 4, Name = "project 4", Description= "Database Systems", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = 2009.12 },
-				new Project { Id = 5, Name = "project 5", Description= "Operating Systems", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = 2009.12 },
-				new Project { Id = 6, Name = "project 6", Description= "Foundations of Computer Systems", Status = "pending", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = 2009.12 },
-				new Project { Id = 7, Name = "project 7", Description= "Computer Networks", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = 2009.12 },
-				new Project { Id = 8, Name = "project 8", Description= "Multimedia Applications", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = 2009.12 },
-				new Project { Id = 9, Name = "project 9", Description= "Information Technology", Status = "pending", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = 2009.12 },
+				new Project { Id = new System.Guid(), Name = "project 1", Description= "Computer Programming", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = (int)2009.12 },
+				new Project { Id = new System.Guid(), Name = "project 2", Description= "IT Revolution", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = (int)2009.12 },
+				new Project { Id = new System.Guid(), Name = "project 3", Description= "Computer Architecture and Organisation", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = (int)2009.12 },
+				new Project { Id = new System.Guid(), Name = "project 4", Description= "Database Systems", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = (int)2009.12 },
+				new Project { Id = new System.Guid(), Name = "project 5", Description= "Operating Systems", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = (int)2009.12 },
+				new Project { Id = new System.Guid(), Name = "project 6", Description= "Foundations of Computer Systems", Status = "pending", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = (int)2009.12 },
+				new Project { Id = new System.Guid(), Name = "project 7", Description= "Computer Networks", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = (int)2009.12 },
+				new Project { Id = new System.Guid(), Name = "project 8", Description= "Multimedia Applications", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = (int)2009.12 },
+				new Project { Id = new System.Guid(), Name = "project 9", Description= "Information Technology", Status = "pending", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = (int)2009.12 },
 			};
 
 			projects.ForEach(x => context.Projects.Add(x));

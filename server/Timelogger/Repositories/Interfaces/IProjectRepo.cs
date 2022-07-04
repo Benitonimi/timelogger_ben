@@ -6,9 +6,9 @@ namespace Timelogger.Repositories
     public interface IProjectRepo
     {
          IEnumerable<Project> GetAll();
-         Project GetById(int id);
+         Project GetById(string id);
          void Add(Project project);
-         void Update(int id, Project project);
-         void Delete(int id);
+         void Update(string id, Project project);
+         void Delete(string id);
     }
 }

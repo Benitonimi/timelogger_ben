@@ -34,7 +34,7 @@ namespace Timelogger.Api.Controllers
 
 		// GET api/projects/{id}
         [HttpGet("{id}")]
-		public IActionResult GetProjectById(int id)
+		public IActionResult GetProjectById(string id)
 		{
 			var project = _repository.GetById(id);
 			if (project == null)
@@ -65,9 +65,9 @@ namespace Timelogger.Api.Controllers
 
 		// PUT api/projects/update/{id}
         [HttpPut("update/{id}")]
-        public ActionResult<Project> UpdateProject(int id, Project proj)
+        public ActionResult<Project> UpdateProject(string id, Project proj)
 		{
-			if(proj.Id != id){
+			if(proj.Id.ToString() != id){
 				return BadRequest();
 			}
 
@@ -84,7 +84,7 @@ namespace Timelogger.Api.Controllers
 
 		// DELETE api/projects/{id}
         [HttpDelete("{id}")]
-        public ActionResult<Project> DeleteProject(int id)
+        public ActionResult<Project> DeleteProject(string id)
 		{
 			try
 			{

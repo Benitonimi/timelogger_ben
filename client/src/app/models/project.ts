@@ -11,12 +11,12 @@ export type ProjectStatus = 'completed' | 'pending' | 'failed';
 // }
 
 export interface Project {
-    id: number;
+    id: string;
     name: string;
     description: string;
     activity?: any;
     status: ProjectStatus;
-    startDate: string;
+    startDate: Date;
     endDate: Date;
     currency: number;
 }

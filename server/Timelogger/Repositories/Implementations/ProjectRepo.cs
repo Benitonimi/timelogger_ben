@@ -17,7 +17,7 @@ namespace Timelogger.Repositories
         {
             return _context.Projects;
         }
-        public Project GetById(int id)
+        public Project GetById(string id)
         {
             var proj = _context.Projects.Find(id);
             if(proj == null) throw new NullReferenceException();
@@ -29,7 +29,7 @@ namespace Timelogger.Repositories
             _context.SaveChanges();
         }
 
-        public void Update(int id, Project project)
+        public void Update(string id, Project project)
         {
             var proj = GetById(id);
             proj.Name = project.Name;
@@ -47,7 +47,7 @@ namespace Timelogger.Repositories
         }
 
 
-        public void Delete(int id)
+        public void Delete(string id)
         {
             var proj = GetById(id);
             _context.Projects.Remove(proj);

@@ -36,15 +36,15 @@ const Projects = {
 	list: () => request.get<Project[]>('/projects'),
 	details: (id: number) => request.get<Project>(`/projects/${id}`),
 	create: (project: Project) => request.post<void>('/projects', project),
-	update: (project: Project) => request.put<void>(`/projects/${project.id}`, project),
+	update: (project: Project) => request.put<void>(`/projects/update/${project.id}`, project),
 	delete: (id: number) => request.delete<void>(`/projects/${id}`)
 }
 
-const agent = {
+const agentProject = {
 	Projects
 }
 
-export default agent;
+export default agentProject;
 /*
 export async function getAll() {
 	const response = await fetch(`${BASE_URL}/projects`);

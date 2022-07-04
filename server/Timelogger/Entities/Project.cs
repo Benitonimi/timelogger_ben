@@ -6,7 +6,7 @@ namespace Timelogger.Entities
 	public class Project : _EntityBase
 	{
 		[JsonProperty("id")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 		[JsonProperty("name")]
 		public string Name { get; set; }
 		[JsonProperty("description")]
