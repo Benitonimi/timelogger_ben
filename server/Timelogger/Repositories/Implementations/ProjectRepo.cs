@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using Timelogger.Entities;
 using System;
+using Timelogger.Repositories.Interfaces;
 
-namespace Timelogger.Repositories
+namespace Timelogger.Repositories.Implementations
 {
     public class ProjectRepo : IProjectRepo
     {

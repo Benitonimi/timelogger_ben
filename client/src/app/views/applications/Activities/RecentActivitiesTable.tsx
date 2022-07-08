@@ -1,4 +1,5 @@
 import { FC, ChangeEvent, useState } from 'react';
+import { format } from 'date-fns';
 import numeral from 'numeral';
 import PropTypes from 'prop-types';
 import {
@@ -28,20 +29,20 @@ import Label from 'src/app/components/Label';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
-import { Project, ProjectStatus } from 'src/app/models/project';
+import { Activity, ActivityStatus } from 'src/app/models/activity';
 import { SelectChangeEvent } from '@mui/material/Select';
 
-export interface RecentProjectsTableProps {
+export interface RecentActivitiesTableProps {
   className?: string;
-  projects: Project[];
+  activities: Activity[];
 }
 
 
 interface Filters {
-  status?: ProjectStatus;
+  status?: ActivityStatus;
 }
 
-const getStatusLabel = (projectStatus: ProjectStatus): JSX.Element => {
+const getStatusLabel = (activityStatus: ActivityStatus): JSX.Element => {
   const map = {
     failed: {
       text: 'Failed',
@@ -57,20 +58,20 @@ const getStatusLabel = (projectStatus: ProjectStatus): JSX.Element => {
     }
   };
 
-  const { text, color }: any = map[projectStatus];
+  const { text, color }: any = map[activityStatus];
 
   return <Label color={color}>{text}</Label>;
 };
 
 
 const applyFilters = (
-  projects: Project[],
+  activities: Activity[],
   filters: Filters
-): Project[] => {
-  return projects.filter((project) => {
+): Activity[] => {
+  return activities.filter((activity) => {
     let matches = true;
 
-    if (filters.status && project.status !== filters.status) {
+    if (filters.status && activity.status !== filters.status) {
       matches = false;
     }
 
@@ -79,19 +80,19 @@ const applyFilters = (
 };
 
 const applyPagination = (
-  projects: Project[],
+  activities: Activity[],
   page: number,
   limit: number
-): Project[] => {
-  return projects.slice(page * limit, page * limit + limit);
+): Activity[] => {
+  return activities.slice(page * limit, page * limit + limit);
 };
 
-const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
-  console.log('ProjectLength : ===>' + projects.length);
-  const [selectedProjects, setSelectedProjects] = useState<string[]>(
+const RecentActivitiesTable: FC<RecentActivitiesTableProps> = ({ activities: activities }) => {
+  console.log('ActivityLength : ===>' + activities.length);
+  const [selectedActivities, setSelectedActivities] = useState<string[]>(
     []
   );
-  const selectedBulkActions = selectedProjects.length > 0;
+  const selectedBulkActions = selectedActivities.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   
@@ -133,27 +134,27 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
     }));
   };
 
-  const handleSelectAllProjects = (
+  const handleSelectAllActivities = (
     event: ChangeEvent<HTMLInputElement>
   ): void => {
-    setSelectedProjects(
+    setSelectedActivities(
       event.target.checked
-        ? projects.map((project) => project.id)
+        ? activities.map((activity) => activity.id)
         : []
     );
   };
 
-  const handleSelectOneProject = (
+  const handleSelectOneActivity = (
     _event: ChangeEvent<HTMLInputElement>,
     projectId: string
   ): void => {
-    if (!selectedProjects.includes(projectId)) {
-      setSelectedProjects((prevSelected) => [
+    if (!selectedActivities.includes(projectId)) {
+      setSelectedActivities((prevSelected) => [
         ...prevSelected,
         projectId
       ]);
     } else {
-      setSelectedProjects((prevSelected) =>
+      setSelectedActivities((prevSelected) =>
         prevSelected.filter((id) => id !== projectId)
       );
     }
@@ -167,17 +168,17 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredProjects = applyFilters(projects, filters);
-  const paginatedProjects = applyPagination(
-    filteredProjects,
+  const filteredActivities = applyFilters(activities, filters);
+  const paginatedActivities = applyPagination(
+    filteredActivities,
     page,
     limit
   );
-  const selectedSomeProjects =
-    selectedProjects.length > 0 &&
-    selectedProjects.length < projects.length;
-  const selectedAllProjects =
-    selectedProjects.length === projects.length;
+  const selectedSomeActivities =
+    selectedActivities.length > 0 &&
+    selectedActivities.length < activities.length;
+  const selectedAllActivities =
+    selectedActivities.length === activities.length;
   const theme = useTheme();
 
   return (
@@ -208,7 +209,7 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
               </FormControl>
             </Box>
           }
-          title="Recent Projects"
+          title="Recent Activities"
         />
       )}
       <Divider />
@@ -219,9 +220,9 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
               <TableCell padding="checkbox">
                 <Checkbox
                   color="primary"
-                  checked={selectedAllProjects}
-                  indeterminate={selectedSomeProjects}
-                  onChange={handleSelectAllProjects}
+                  checked={selectedAllActivities}
+                  indeterminate={selectedSomeActivities}
+                  onChange={handleSelectAllActivities}
                 />
               </TableCell>
               <TableCell>Order Details</TableCell>
@@ -233,24 +234,24 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedProjects.map((project) => {
-              const isProjectSelected = selectedProjects.includes(
-                project.id
+            {paginatedActivities.map((activity) => {
+              const isActivitySelected = selectedActivities.includes(
+                activity.id
               );
               return (
                 <TableRow
                   hover
-                  key={project.id}
-                  selected={isProjectSelected}
+                  key={activity.id}
+                  selected={isActivitySelected}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
                       color="primary"
-                      checked={isProjectSelected}
+                      checked={isActivitySelected}
                       onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        handleSelectOneProject(event, project.id)
+                        handleSelectOneActivity(event, activity.id)
                       }
-                      value={isProjectSelected}
+                      value={isActivitySelected}
                     />
                   </TableCell>
                   <TableCell>
@@ -261,12 +262,12 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
                       gutterBottom
                       noWrap
                     >
-                      {project.description}
+                      {activity.description}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {/* {format(project.startDate, 'MMMM dd yyyy')}  */}
+                      {/* {format(activity.startDate, 'MMMM dd yyyy')}  */}
                       {/* TO-DO */}
-                      {project.startDate.toLocaleDateString} 
+                      {format(1468959781804, 'MMMM dd yyyy')} 
                     </Typography>
                   </TableCell>
                   {/* <TableCell>
@@ -277,7 +278,7 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
                       gutterBottom
                       noWrap
                     >
-                      {project.id}
+                      {activity.id}
                     </Typography>
                   </TableCell> */}
                   <TableCell>
@@ -288,10 +289,10 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
                       gutterBottom
                       noWrap
                     >
-                      {project.name}
+                      {activity.name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {project.description}
+                      {activity.description}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
@@ -302,17 +303,17 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
                       gutterBottom
                       noWrap
                     >
-                      {project.currency}
-                      {project.currency}
+                      {activity.totalHours}
+                      {activity.totalHours}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {numeral(project.currency).format(
-                        `${project.currency}0,0.00`
+                      {numeral(activity.totalHours).format(
+                        `${activity.totalHours}0.00H`
                       )}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
-                    {getStatusLabel(project.status)}
+                    {getStatusLabel(activity.status)}
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>
@@ -351,7 +352,7 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
       <Box p={2}>
         <TablePagination
           component="div"
-          count={filteredProjects.length}
+          count={filteredActivities.length}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}
@@ -363,12 +364,12 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
   );
 };
 
-RecentProjectsTable.propTypes = {
-  projects: PropTypes.array.isRequired
+RecentActivitiesTable.propTypes = {
+  activities: PropTypes.array.isRequired
 };
 
-RecentProjectsTable.defaultProps = {
-  projects: []
+RecentActivitiesTable.defaultProps = {
+  activities: []
 };
 
-export default RecentProjectsTable;
+export default RecentActivitiesTable;

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Timelogger.Entities;
 
-namespace Timelogger.Repositories
+namespace Timelogger.Repositories.Interfaces
 {
     public interface IProjectRepo
     {

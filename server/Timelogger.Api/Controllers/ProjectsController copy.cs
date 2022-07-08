@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Timelogger.Entities;
-using Timelogger.Repositories;
 using System;
 using Microsoft.AspNetCore.Http;
+using Timelogger.Repositories.Interfaces;
 
 namespace Timelogger.Api.Controllers
 {

@@ -7,7 +7,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
 using Timelogger.Entities;
 using System.Collections.Generic;
-using Timelogger.Repositories;
+using Timelogger.Repositories.Interfaces;
+using Timelogger.Repositories.Implementations;
 
 namespace Timelogger.Api
 {
@@ -43,6 +44,7 @@ namespace Timelogger.Api
 			services.AddMvc(options => options.EnableEndpointRouting = false);
 
 			services.AddTransient<IProjectRepo, ProjectRepo>();
+			services.AddTransient<IActivityRepo, ActivityRepo>();
 
 			if (_environment.IsDevelopment())
 			{
@@ -90,6 +92,13 @@ namespace Timelogger.Api
 			};
 
 			projects.ForEach(x => context.Projects.Add(x));
+
+			var activities = new List<Activity>()
+			{
+				new Activity { Id = new System.Guid(), Name = "Task 1", Description= "Computer Programming", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), TotalHours = "8H" },
+			};
+
+			activities.ForEach(x => context.Activities.Add(x));
 
 			context.SaveChanges();
 		}

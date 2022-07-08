@@ -23,7 +23,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ openProjectForm, handlePr
         id: "",
         name: "",
         description: "",
-        activity: null,
+        activity: [],
         status: 'completed' as ProjectStatus, // used type assertion
         startDate: new Date(),
         endDate: new Date(),
@@ -43,7 +43,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ openProjectForm, handlePr
             id: project.id,
             name: project?.name,
             description: project?.description,
-            activity: null,
+            activity: [],
             status: project.status,
             startDate: project.startDate,
             endDate: project.endDate,
