@@ -31,6 +31,7 @@ import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
 import { Project, ProjectStatus } from 'src/app/models/project';
 import { SelectChangeEvent } from '@mui/material/Select';
+import agentProject from 'src/app/api/projects';
 
 export interface RecentProjectsTableProps {
   className?: string;
@@ -92,6 +93,7 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
   const [selectedProjects, setSelectedProjects] = useState<string[]>(
     []
   );
+  const [projectList, setprojectList] = useState(projects);
   const selectedBulkActions = selectedProjects.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
@@ -159,6 +161,14 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
       );
     }
   };
+
+  const handleDeleteProject = (projId: string, index: number) => {
+    agentProject.Projects.delete(projId);
+    console.log("Before: Project Lenght ==> "+ projects.length);
+    setprojectList([...projects.splice(index, 1)]);
+    projects = projectList.slice();
+    console.log("After: Project Lenght ==> "+ projects.length);
+  }
 
   const handlePageChange = (_event: any, newPage: number): void => {
     setPage(newPage);
@@ -234,14 +244,14 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedProjects.map((project) => {
+            {paginatedProjects.map((project, index) => {
               const isProjectSelected = selectedProjects.includes(
                 project.id
               );
               return (
                 <TableRow
                   hover
-                  key={project.id}
+                  key={index}
                   selected={isProjectSelected}
                 >
                   <TableCell padding="checkbox">
@@ -264,9 +274,6 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
                     >
                       {project.name}
                     </Typography>
-                    {/* <Typography variant="body2" color="text.secondary" noWrap>
-                      {project.startDate.toLocaleDateString} 
-                    </Typography> */}
                   </TableCell>
                   <TableCell>
                     <Typography
@@ -278,11 +285,6 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
                     >
                       {format(new Date(project.startDate), 'MMMM dd yyyy')}
                     </Typography>
-                    {/* <Typography variant="body2" color="text.secondary" noWrap>
-                      {numeral(project.startDate).format(
-                        `${project.startDate.toISOString} MMMM DD YY`
-                      )}
-                    </Typography> */}
                   </TableCell>
                   <TableCell>
                     <Typography
@@ -294,9 +296,6 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
                     >
                       {format(new Date(project.endDate), 'MMMM dd yyyy')}
                     </Typography>
-                    {/* <Typography variant="body2" color="text.secondary" noWrap>
-                      {project.description}
-                    </Typography> */}
                   </TableCell>
                   <TableCell align="right">
                     <Typography
@@ -308,11 +307,6 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
                     >
                       {project.currency}
                     </Typography>
-                    {/* <Typography variant="body2" color="text.secondary" noWrap>
-                      {numeral(project.currency).format(
-                        `${project.currency}0,0.00`
-                      )}
-                    </Typography> */}
                   </TableCell>
                   <TableCell align="right">
                     {getStatusLabel(project.status)}
@@ -333,15 +327,16 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Delete Order" arrow>
-                      <IconButton
+                      <IconButton onClick={() => handleDeleteProject(project.id, index) }
                         sx={{
                           '&:hover': { background: theme.colors.error.lighter },
                           color: theme.palette.error.main
                         }}
                         color="inherit"
-                        size="small"
+                        size="small"                        
                       >
                         <DeleteTwoToneIcon fontSize="small" />
+                        
                       </IconButton>
                     </Tooltip>
                   </TableCell>

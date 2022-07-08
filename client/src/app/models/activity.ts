@@ -13,15 +13,3 @@ export interface Activity {
     startDate: Date;
     endDate: Date;
 }
-
-
-/* project?: {
-    id: string;
-    name: string;
-    description: string;
-    activity: Activity[];
-    status: string;
-    startDate: string;
-    endDate: string | null;
-    currency: number;
-}; */

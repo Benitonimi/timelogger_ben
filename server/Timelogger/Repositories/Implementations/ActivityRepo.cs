@@ -19,7 +19,7 @@ namespace Timelogger.Repositories.Implementations
         {
             return _context.Activities.Include(p => p.Project);
         }
-        public Activity GetById(string id)
+        public Activity GetById(Guid id)
         {
             var actvty = _context.Activities.Find(id);
             if(actvty == null) throw new NullReferenceException();
@@ -35,7 +35,7 @@ namespace Timelogger.Repositories.Implementations
             _context.SaveChanges();
         }
 
-        public void Update(string id, Activity activity)
+        public void Update(Guid id, Activity activity)
         {
             var actvty = GetById(id);
             actvty.Name = activity.Name;
@@ -51,7 +51,7 @@ namespace Timelogger.Repositories.Implementations
         }
 
 
-        public void Delete(string id)
+        public void Delete(Guid id)
         {
             var actvty = GetById(id);
             _context.Activities.Remove(actvty);

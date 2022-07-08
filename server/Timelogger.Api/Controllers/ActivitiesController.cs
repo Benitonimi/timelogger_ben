@@ -27,7 +27,7 @@ namespace Timelogger.Api.Controllers
 
 		// GET api/activities/{id}
         [HttpGet("{id}")]
-		public IActionResult GetActivityById(string id)
+		public IActionResult GetActivityById(Guid id)
 		{
 			var activity = _repository.GetById(id);
 			if (activity == null)
@@ -58,9 +58,9 @@ namespace Timelogger.Api.Controllers
 
 		// PUT api/activities/update/{id}
         [HttpPut("update/{id}")]
-        public ActionResult<Activity> UpdateActivity(string id, Activity actvty)
+        public ActionResult<Activity> UpdateActivity(Guid id, Activity actvty)
 		{
-			if(actvty.Id.ToString() != id){
+			if(actvty.Id != id){
 				return BadRequest();
 			}
 
@@ -77,7 +77,7 @@ namespace Timelogger.Api.Controllers
 
 		// DELETE api/activities/{id}
         [HttpDelete("{id}")]
-        public ActionResult<Activity> DeleteActivity(string id)
+        public ActionResult<Activity> DeleteActivity(Guid id)
 		{
 			try
 			{

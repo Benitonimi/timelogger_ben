@@ -97,13 +97,7 @@ const AddActivity: React.FC<AddActivityProps> = ({ openActivityForm, handleActiv
         setActivity(initialActivityState);
     }
 
-    //const [endDate, setEndDate] = React.useState<Date | null>(null);
     const [startDate, setStartDate] = React.useState<Date | null>(null);
-
-    /* const handleEndDate = (date:any) => {
-        setEndDate(date);
-        activity.endDate = date;
-    } */
 
     const handleStartDate = (date:any) => {
         setStartDate(date);
@@ -117,9 +111,6 @@ const AddActivity: React.FC<AddActivityProps> = ({ openActivityForm, handleActiv
         activity.projectId = event.target.value;
         let sp = projects.filter(p => p.id === event.target.value)[0];
         activity.project = sp;
-        console.log(activity.project);
-        console.log(typeof(sp));
-        console.log(typeof(activity.project));
     };
     
     return (
@@ -158,16 +149,6 @@ const AddActivity: React.FC<AddActivityProps> = ({ openActivityForm, handleActiv
                     label="Start Date"
                     showTodayButton
                 />
-                {/* <DateTimePicker style={{ margin: '0.8%', width: '38%' }}
-                    autoOk
-                    value={endDate}
-                    disablePast
-                    onChange={(newValue) => {
-                        handleEndDate(newValue);
-                    }}
-                    label="End Date"
-                    showTodayButton
-                /> */}
                 <TextField
                     required
                     variant="standard"
@@ -185,16 +166,6 @@ const AddActivity: React.FC<AddActivityProps> = ({ openActivityForm, handleActiv
                 />
             </div>
             <div>
-                {/* <TextField
-                variant="standard"
-                id="standard"
-                label="Client"
-                name='description'
-                value={activity.description}
-                onChange={handleInputChange}
-                style={{width:'38%'}}
-                
-                /> */}
                 <TextField style={{ margin: '0.5%', width: '38.5%' }}
                     id="standard-select-project"
                     select

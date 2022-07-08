@@ -37,7 +37,7 @@ const Projects = {
 	details: (id: number) => request.get<Project>(`/projects/${id}`),
 	create: (project: Project) => request.post<void>('/projects', project),
 	update: (project: Project) => request.put<void>(`/projects/update/${project.id}`, project),
-	delete: (id: number) => request.delete<void>(`/projects/${id}`)
+	delete: (id: string) => request.delete<void>(`/projects/${id}`)
 }
 
 const agentProject = {
@@ -45,15 +45,3 @@ const agentProject = {
 }
 
 export default agentProject;
-/*
-export async function getAll() {
-	const response = await fetch(`${BASE_URL}/projects`);
-	return response.json();
-}
-
-
-export async function getProjectById(id: number) {
-	const response = await fetch(`${BASE_URL}/projects/${id}`);
-	return response.json();
-}
-*/

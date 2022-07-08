@@ -34,25 +34,6 @@ export default function Table() {
 							</>
 						</tr>
 					))}
-				
-				{/*<tr>
-					<td className="border px-4 py-2 w-12">1</td>
-					<td className="border px-4 py-2">Project 1</td>
-					<td className="border px-4 py-2">abc</td>
-					<td className="border px-4 py-2">xyz</td>
-				</tr>
-				<tr>
-					<td className="border px-4 py-2 w-12">2</td>
-					<td className="border px-4 py-2">Project 2</td>
-					<td className="border px-4 py-2">abc</td>
-					<td className="border px-4 py-2">xyz</td>
-				</tr>
-				<tr>
-					<td className="border px-4 py-2 w-12">3</td>
-					<td className="border px-4 py-2">Project 3</td>
-					<td className="border px-4 py-2">abc</td>
-					<td className="border px-4 py-2">xyz</td>
-				</tr> */}
 			</tbody>
 		</table>
 	);

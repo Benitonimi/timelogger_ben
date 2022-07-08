@@ -279,9 +279,6 @@ const RecentActivitiesTable: FC<RecentActivitiesTableProps> = ({ activities: act
                     >
                       {activity.totalHours}{'H'}
                     </Typography>
-                    {/* <Typography variant="body2" color="text.secondary" noWrap>
-                      {activity.description}
-                    </Typography> */}
                   </TableCell>
                   <TableCell align="right">
                     <Typography
@@ -291,14 +288,8 @@ const RecentActivitiesTable: FC<RecentActivitiesTableProps> = ({ activities: act
                       gutterBottom
                       noWrap
                     >
-                      {/* {new Date(activity.startDate).toLocaleDateString('En-en')} */}
                       {format(new Date(activity.startDate), 'MMMM dd yyyy')}
                     </Typography>
-                    {/* <Typography variant="body2" color="text.secondary" noWrap>
-                      {numeral(activity.totalHours).format(
-                        `${activity.totalHours}0.00H`
-                      )}
-                    </Typography> */}
                   </TableCell>
                   <TableCell align="right">
                     {getStatusLabel(activity.status)}
