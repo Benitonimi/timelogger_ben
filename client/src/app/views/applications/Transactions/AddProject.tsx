@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import { Box, Stack, TextField } from '@mui/material';
+import { Box, CardActions, TextField } from '@mui/material';
 import { Project, ProjectStatus } from 'src/app/models/project';
 import { ChangeEvent, useState } from 'react';
 import agentProject from 'src/app/api/projects';
@@ -14,10 +14,11 @@ export interface CreateProjectProps {
     className?: string;
     openProjectForm: boolean;
     handleProjectForm: () => void;
+    projects: Project[];
   }
   
 
-const CreateProject: React.FC<CreateProjectProps> = ({ openProjectForm, handleProjectForm }) => {
+const CreateProject: React.FC<CreateProjectProps> = ({ openProjectForm, handleProjectForm, projects }) => {
   
     const initialProjectState = {
         id: "",
@@ -54,6 +55,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ openProjectForm, handlePr
         agentProject.Projects.create(data);
         setSubmitted(true);
         handleInputCancel();
+        projects.push(data);
     };
 
     const handleInputCancel = () => {
@@ -144,20 +146,22 @@ const CreateProject: React.FC<CreateProjectProps> = ({ openProjectForm, handlePr
                 
                 />
             </div>
-            <Stack direction="row" spacing={2} justifyContent="end">
-                <Button 
-                    variant="contained" 
-                    startIcon={<AddTwoToneIcon />}
-                    onClick={handleProjectSubmit}>
-                    Submit
-                </Button>
-                <Button 
-                    variant="outlined" 
-                    endIcon={<CancelIcon />}
-                    onClick={handleInputCancel}>
-                    Cancel
-                </Button>
-            </Stack>
+            <div>
+                <CardActions style={{justifyContent: 'right'}}>
+                    <Button 
+                        size="large"
+                        startIcon={<AddTwoToneIcon />}
+                        onClick={handleProjectSubmit}
+                    >Submit
+                    </Button>
+                    <Button 
+                        size="large"
+                        endIcon={<CancelIcon />}
+                        onClick={handleInputCancel}
+                    >
+                    </Button>
+                </CardActions>
+            </div>
         </Box>
         </>
     );

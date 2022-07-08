@@ -56,7 +56,7 @@ function ApplicationsActivities() {
           Activities
         </Typography>
         <Typography variant="subtitle2">
-          {user.name}, these are your recent projects
+          {user.name}, these are your recent activities
         </Typography>
       </Grid>
       <Grid item>

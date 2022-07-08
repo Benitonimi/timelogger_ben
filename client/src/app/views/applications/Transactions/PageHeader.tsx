@@ -1,8 +1,5 @@
-
 import { Typography, Grid, Button } from '@mui/material';
-import AddProject from './AddProject';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
-import { useState } from 'react';
 
 
 function PageHeader() {
@@ -11,14 +8,8 @@ function PageHeader() {
     avatar: '/static/images/avatars/1.jpg'
   };
 
-  const [openProjectForm, setOpenProjectForm] = useState(false);
-
-  const handleAddProject = () => {
-    setOpenProjectForm(!openProjectForm);
-    };
-
   return (
-    <><Grid container justifyContent="space-between" alignItems="center">
+    <Grid container justifyContent="space-between" alignItems="center">
       <Grid item>
         <Typography variant="h3" component="h3" gutterBottom>
           Projects
@@ -28,16 +19,15 @@ function PageHeader() {
         </Typography>
       </Grid>
       <Grid item>
-       {openProjectForm === false ? (<Button
+        <Button
           sx={{ mt: { xs: 2, md: 0} }}
           variant="contained"
           startIcon={<AddTwoToneIcon fontSize="small" />}
-          onClick={handleAddProject}
         >
           Create project
-        </Button>):''}
+        </Button>
       </Grid>
-    </Grid><AddProject openProjectForm={openProjectForm} handleProjectForm={handleAddProject} /></>
+    </Grid>
 
   );
 }

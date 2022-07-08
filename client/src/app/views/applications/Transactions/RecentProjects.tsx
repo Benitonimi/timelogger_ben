@@ -1,28 +1,36 @@
 
-import { Card } from '@mui/material';
+import { Card, Grid } from '@mui/material';
 import RecentProjectsTable from './RecentProjectsTable';
-import { useEffect, useState } from 'react';
-import agentProject from 'src/app/api/projects';
+import { FC } from 'react';
 import { Project } from 'src/app/models/project';
+import AddProject from './AddProject';
 
-
-function RecentProjects() {
-  const [projects, setProjects] = useState<Project[]>([]);
-
-  useEffect(()=> {
-      agentProject.Projects.list().then(response => {
-           console.log(response);
-          setProjects(response);
-      })
-  }, [])
-
-  //console.log(projects);
-
-  return (
-    <Card>
-      <RecentProjectsTable projects={projects} />
-    </Card>
-  );
+export interface RecentProjectsProps {
+  className?: string;
+  openProjectForm: boolean;
+  handleProjectForm: () => void;
+  projects: Project[];
 }
+
+const RecentProjects: FC<RecentProjectsProps> = ({ openProjectForm, handleProjectForm: handleProjectForm, projects }) => {
+  {
+    return (
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+        {openProjectForm === true ? (
+          <Card>
+            <AddProject openProjectForm={openProjectForm} handleProjectForm={handleProjectForm} projects={projects}/>
+          </Card>):''}
+        </Grid>
+        
+        <Grid item xs={12}>
+          <Card>
+            <RecentProjectsTable projects={projects} />
+          </Card>
+        </Grid>
+      </Grid>
+    );
+  };
+};
 
 export default RecentProjects;
