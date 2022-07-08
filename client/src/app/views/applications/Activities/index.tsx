@@ -22,7 +22,6 @@ function ApplicationsActivities() {
 
   useEffect(()=> {
       agentActivity.Activities.list().then(response => {
-           console.log(response);
           setActivities(response);
       })
   }, [])
@@ -31,11 +30,9 @@ function ApplicationsActivities() {
   
     useEffect(()=> {
         agentProject.Projects.list().then(response => {
-             console.log(response);
             setProjects(response);
         })
     }, [])
-  //console.log(activities);
 
   const [openActivityForm, setOpenActivityForm] = useState(false);
 

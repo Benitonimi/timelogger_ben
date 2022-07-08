@@ -89,7 +89,6 @@ const applyPagination = (
 };
 
 const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
-  console.log('ProjectLength : ===>' + projects.length);
   const [selectedProjects, setSelectedProjects] = useState<string[]>(
     []
   );
@@ -164,10 +163,8 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
 
   const handleDeleteProject = (projId: string, index: number) => {
     agentProject.Projects.delete(projId);
-    console.log("Before: Project Lenght ==> "+ projects.length);
     setprojectList([...projects.splice(index, 1)]);
     projects = projectList.slice();
-    console.log("After: Project Lenght ==> "+ projects.length);
   }
 
   const handlePageChange = (_event: any, newPage: number): void => {

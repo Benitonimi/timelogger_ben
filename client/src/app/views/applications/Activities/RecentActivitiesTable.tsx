@@ -89,8 +89,6 @@ const applyPagination = (
 };
 
 const RecentActivitiesTable: FC<RecentActivitiesTableProps> = ({ activities: activities }) => {
-  console.log('ActivityLength : ===>' + activities.length);
-  console.log('Activity : ===>' + activities);
   const [selectedActivities, setSelectedActivities] = useState<string[]>(
     []
   );

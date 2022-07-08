@@ -63,7 +63,6 @@ const AddActivity: React.FC<AddActivityProps> = ({ openActivityForm, handleActiv
             endDate: new Date()
         };
         data.id = uuid();
-        console.log(data);
         agentActivity.Activities.create(data);
         setSubmitted(true);
         handleInputCancel();

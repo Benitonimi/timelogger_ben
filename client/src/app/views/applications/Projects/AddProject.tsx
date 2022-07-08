@@ -51,7 +51,6 @@ const CreateProject: React.FC<CreateProjectProps> = ({ openProjectForm, handlePr
             currency: project.currency
         };
         data.id = uuid();
-        console.log(data);
         agentProject.Projects.create(data);
         setSubmitted(true);
         handleInputCancel();

@@ -7,7 +7,6 @@ export default function Table() {
 
     useEffect(()=> {
         agentProject.Projects.list().then(response => {
-            // console.log(response);
             setProjects(response);
         })
     }, [])

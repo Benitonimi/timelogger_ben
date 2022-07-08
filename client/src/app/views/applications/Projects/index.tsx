@@ -22,7 +22,6 @@ function ApplicationsProjects() {
     
   useEffect(()=> {
       agentProject.Projects.list().then(response => {
-           console.log(response);
           setProjects(response);
       })
   }, [])
