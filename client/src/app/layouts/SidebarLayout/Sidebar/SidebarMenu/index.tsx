@@ -198,7 +198,7 @@ function SidebarMenu() {
                   to="/dashboards/crypto"
                   startIcon={<BrightnessLowTwoToneIcon />}
                 >
-                  Cryptocurrency
+                  Timelogger Dashboard
                 </Button>
               </ListItem>
             </List>

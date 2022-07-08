@@ -1,5 +1,6 @@
 import { FC, ChangeEvent, useState } from 'react';
-import numeral from 'numeral';
+import { format } from 'date-fns';
+//import numeral from 'numeral';
 import PropTypes from 'prop-types';
 import {
   Tooltip,
@@ -224,10 +225,10 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
                   onChange={handleSelectAllProjects}
                 />
               </TableCell>
-              <TableCell>Order Details</TableCell>
-              {/* <TableCell>Order ID</TableCell> */}
-              <TableCell>Source</TableCell>
-              <TableCell align="right">Amount</TableCell>
+              <TableCell>Project Name</TableCell>
+              <TableCell>Start Date</TableCell>
+              <TableCell>End Date</TableCell>
+              <TableCell align="right">Project Cost</TableCell>
               <TableCell align="right">Status</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
@@ -261,25 +262,12 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
                       gutterBottom
                       noWrap
                     >
-                      {project.description}
+                      {project.name}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {/* {format(project.startDate, 'MMMM dd yyyy')}  */}
-                      {/* TO-DO */}
+                    {/* <Typography variant="body2" color="text.secondary" noWrap>
                       {project.startDate.toLocaleDateString} 
-                    </Typography>
+                    </Typography> */}
                   </TableCell>
-                  {/* <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {project.id}
-                    </Typography>
-                  </TableCell> */}
                   <TableCell>
                     <Typography
                       variant="body1"
@@ -288,11 +276,27 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
                       gutterBottom
                       noWrap
                     >
-                      {project.name}
+                      {format(new Date(project.startDate), 'MMMM dd yyyy')}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
+                    {/* <Typography variant="body2" color="text.secondary" noWrap>
+                      {numeral(project.startDate).format(
+                        `${project.startDate.toISOString} MMMM DD YY`
+                      )}
+                    </Typography> */}
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {format(new Date(project.endDate), 'MMMM dd yyyy')}
+                    </Typography>
+                    {/* <Typography variant="body2" color="text.secondary" noWrap>
                       {project.description}
-                    </Typography>
+                    </Typography> */}
                   </TableCell>
                   <TableCell align="right">
                     <Typography
@@ -303,13 +307,12 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
                       noWrap
                     >
                       {project.currency}
-                      {project.currency}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
+                    {/* <Typography variant="body2" color="text.secondary" noWrap>
                       {numeral(project.currency).format(
                         `${project.currency}0,0.00`
                       )}
-                    </Typography>
+                    </Typography> */}
                   </TableCell>
                   <TableCell align="right">
                     {getStatusLabel(project.status)}

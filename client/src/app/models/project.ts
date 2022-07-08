@@ -1,4 +1,4 @@
-import { Activity } from "./activity";
+//import { Activity } from "./activity";
 
 export type ProjectStatus = 'completed' | 'pending' | 'failed';
 
@@ -16,7 +16,7 @@ export interface Project {
     id: string;
     name: string;
     description: string;
-    activity?: Activity[] | null;
+    //activity?: Activity[] | null;
     status: ProjectStatus;
     startDate: Date;
     endDate: Date;

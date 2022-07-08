@@ -95,7 +95,8 @@ namespace Timelogger.Api
 
 			var activities = new List<Activity>()
 			{
-				new Activity { Id = new System.Guid(), Name = "Task 1", Description= "Computer Programming", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), TotalHours = "8H" },
+				new Activity { Id = new System.Guid(), Name = "Task 1", Description= "Code Analysis", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), TotalHours = 8 },
+				new Activity { Id = new System.Guid(), Name = "Task 2", Description= "Debuging", Status = "completed", StartDate = System.DateTime.Today.AddDays(-35), EndDate = System.DateTime.Today.AddDays(25), TotalHours = 5 },
 			};
 
 			activities.ForEach(x => context.Activities.Add(x));

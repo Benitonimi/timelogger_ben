@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Timelogger.Entities;
 using System;
 using Timelogger.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Timelogger.Repositories.Implementations
 {
@@ -16,7 +17,7 @@ namespace Timelogger.Repositories.Implementations
 
         public IEnumerable<Activity> GetAll()
         {
-            return _context.Activities;
+            return _context.Activities.Include(p => p.Project);
         }
         public Activity GetById(string id)
         {
@@ -24,9 +25,13 @@ namespace Timelogger.Repositories.Implementations
             if(actvty == null) throw new NullReferenceException();
             return actvty;
         }
-        public void Add(Activity Activity)
+        public void Add(Activity activity)
         {
-            _context.Activities.Add(Activity);
+            if(!string.IsNullOrEmpty(activity.ProjectId?.ToString()))
+            {
+                AssociateActivityToProject(activity.ProjectId, activity);
+            }
+            _context.Activities.Add(activity);
             _context.SaveChanges();
         }
 
@@ -40,6 +45,7 @@ namespace Timelogger.Repositories.Implementations
             actvty.StartDate = activity.StartDate;
             actvty.EndDate = activity.EndDate;
             actvty.ProjectId = activity.ProjectId;
+            activity.TotalHours = activity.TotalHours;
             _context.Activities.Update(actvty);
             _context.SaveChanges();
         }
@@ -50,6 +56,11 @@ namespace Timelogger.Repositories.Implementations
             var actvty = GetById(id);
             _context.Activities.Remove(actvty);
             _context.SaveChanges();
+        }
+
+        private void AssociateActivityToProject(Guid? projectId, Activity activity)
+        {
+            activity.Project = _context.Projects.Find(projectId);
         }
     }
 }

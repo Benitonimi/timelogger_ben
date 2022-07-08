@@ -6,12 +6,22 @@ export interface Activity {
     id: string;
     name: string;
     description: string;
-    projectId: string | null;
+    projectId: string;
     status: ActivityStatus;
-    project?: Project[]| null;
-    totalHours: string | null;
-    startDate: Date | null;
-    endDate: Date | null;
+    project: Project;
+    totalHours: number;
+    startDate: Date;
+    endDate: Date;
 }
 
 
+/* project?: {
+    id: string;
+    name: string;
+    description: string;
+    activity: Activity[];
+    status: string;
+    startDate: string;
+    endDate: string | null;
+    currency: number;
+}; */

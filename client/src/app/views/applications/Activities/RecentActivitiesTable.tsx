@@ -1,6 +1,6 @@
 import { FC, ChangeEvent, useState } from 'react';
 import { format } from 'date-fns';
-import numeral from 'numeral';
+//import numeral from 'numeral';
 import PropTypes from 'prop-types';
 import {
   Tooltip,
@@ -69,6 +69,7 @@ const applyFilters = (
   filters: Filters
 ): Activity[] => {
   return activities.filter((activity) => {
+    debugger;
     let matches = true;
 
     if (filters.status && activity.status !== filters.status) {
@@ -89,6 +90,7 @@ const applyPagination = (
 
 const RecentActivitiesTable: FC<RecentActivitiesTableProps> = ({ activities: activities }) => {
   console.log('ActivityLength : ===>' + activities.length);
+  console.log('Activity : ===>' + activities);
   const [selectedActivities, setSelectedActivities] = useState<string[]>(
     []
   );
@@ -225,10 +227,9 @@ const RecentActivitiesTable: FC<RecentActivitiesTableProps> = ({ activities: act
                   onChange={handleSelectAllActivities}
                 />
               </TableCell>
-              <TableCell>Order Details</TableCell>
-              {/* <TableCell>Order ID</TableCell> */}
-              <TableCell>Source</TableCell>
-              <TableCell align="right">Amount</TableCell>
+              <TableCell>Activity Name</TableCell>
+              <TableCell>Time Spent</TableCell>
+              <TableCell align="right">Date of Work</TableCell>
               <TableCell align="right">Status</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
@@ -262,25 +263,12 @@ const RecentActivitiesTable: FC<RecentActivitiesTableProps> = ({ activities: act
                       gutterBottom
                       noWrap
                     >
-                      {activity.description}
+                      {activity.name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {/* {format(activity.startDate, 'MMMM dd yyyy')}  */}
-                      {/* TO-DO */}
-                      {format(1468959781804, 'MMMM dd yyyy')} 
+                      {activity.project?.name} 
                     </Typography>
                   </TableCell>
-                  {/* <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {activity.id}
-                    </Typography>
-                  </TableCell> */}
                   <TableCell>
                     <Typography
                       variant="body1"
@@ -289,11 +277,11 @@ const RecentActivitiesTable: FC<RecentActivitiesTableProps> = ({ activities: act
                       gutterBottom
                       noWrap
                     >
-                      {activity.name}
+                      {activity.totalHours}{'H'}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
+                    {/* <Typography variant="body2" color="text.secondary" noWrap>
                       {activity.description}
-                    </Typography>
+                    </Typography> */}
                   </TableCell>
                   <TableCell align="right">
                     <Typography
@@ -303,14 +291,14 @@ const RecentActivitiesTable: FC<RecentActivitiesTableProps> = ({ activities: act
                       gutterBottom
                       noWrap
                     >
-                      {activity.totalHours}
-                      {activity.totalHours}
+                      {/* {new Date(activity.startDate).toLocaleDateString('En-en')} */}
+                      {format(new Date(activity.startDate), 'MMMM dd yyyy')}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
+                    {/* <Typography variant="body2" color="text.secondary" noWrap>
                       {numeral(activity.totalHours).format(
                         `${activity.totalHours}0.00H`
                       )}
-                    </Typography>
+                    </Typography> */}
                   </TableCell>
                   <TableCell align="right">
                     {getStatusLabel(activity.status)}

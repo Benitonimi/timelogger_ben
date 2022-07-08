@@ -1,4 +1,4 @@
-import { Box, Container, Link, Typography, styled } from '@mui/material';
+import { Box, Container, Typography, styled } from '@mui/material';
 
 const FooterWrapper = styled(Container)(
   ({ theme }) => `
@@ -18,7 +18,7 @@ function Footer() {
       >
         <Box>
           <Typography variant="subtitle1">
-            &copy; 2022 - Tokyo Free White React Typescript Admin Dashboard
+
           </Typography>
         </Box>
         <Typography
@@ -27,14 +27,7 @@ function Footer() {
           }}
           variant="subtitle1"
         >
-          Crafted by{' '}
-          <Link
-            href="https://bloomui.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            BloomUI.com
-          </Link>
+          
         </Typography>
       </Box>
     </FooterWrapper>

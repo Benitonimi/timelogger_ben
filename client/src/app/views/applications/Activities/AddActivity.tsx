@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import { Box, CardActions, MenuItem, TextField } from '@mui/material';
+import { Box, CardActions, InputAdornment, MenuItem, TextField } from '@mui/material';
 import { Activity, ActivityStatus } from 'src/app/models/activity';
 import { ChangeEvent, useState } from 'react';
 import agentActivity from 'src/app/api/activities';
@@ -8,7 +8,7 @@ import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {v4 as uuid} from 'uuid';
 import { DateTimePicker } from "@material-ui/pickers";
-import { Project } from 'src/app/models/project';
+import { Project, ProjectStatus } from 'src/app/models/project';
 
 
 export interface AddActivityProps {
@@ -18,7 +18,6 @@ export interface AddActivityProps {
     activities:  Activity[];
     projects: Project[];
   }
-  
 
 const AddActivity: React.FC<AddActivityProps> = ({ openActivityForm, handleActivityForm, activities, projects }) => {
   
@@ -28,8 +27,17 @@ const AddActivity: React.FC<AddActivityProps> = ({ openActivityForm, handleActiv
         description: "",
         projectId: "",
         status: 'completed' as ActivityStatus,
-        project: null,
-        totalHours: "",
+        project: {
+            id: "",
+            name: "",
+            description: "",
+            activity: null,
+            status: 'pending' as ProjectStatus,
+            startDate: new Date(),
+            endDate: new Date(),
+            currency: 0
+        },
+        totalHours: 0,
         startDate: new Date(),
         endDate: new Date()
     }; 
@@ -49,7 +57,7 @@ const AddActivity: React.FC<AddActivityProps> = ({ openActivityForm, handleActiv
             description: activity?.description,
             projectId: activity.projectId,
             status: activity.status, 
-            project: null,
+            project: activity.project,
             totalHours: activity.totalHours,
             startDate: new Date(),
             endDate: new Date()
@@ -60,20 +68,42 @@ const AddActivity: React.FC<AddActivityProps> = ({ openActivityForm, handleActiv
         setSubmitted(true);
         handleInputCancel();
         activities.push(data);
+        activities.reverse();
     };
+
+
+
+    const statusOptions = [
+        {
+          id: 'completed',
+          name: 'Completed'
+        },
+        {
+          id: 'pending',
+          name: 'Pending'
+        }
+      ];
+    
+    const [selectedActivityStatus, setSelectedActivityStatus] = useState('');
+    
+    const handleStatusChange = (event: any) => {
+        setSelectedActivityStatus(event.target.value);
+        activity.status = event.target.value;
+    };
+    
 
     const handleInputCancel = () => {
         handleActivityForm();
         setActivity(initialActivityState);
     }
 
-    const [endDate, setEndDate] = React.useState<Date | null>(null);
+    //const [endDate, setEndDate] = React.useState<Date | null>(null);
     const [startDate, setStartDate] = React.useState<Date | null>(null);
 
-    const handleEndDate = (date:any) => {
+    /* const handleEndDate = (date:any) => {
         setEndDate(date);
         activity.endDate = date;
-    }
+    } */
 
     const handleStartDate = (date:any) => {
         setStartDate(date);
@@ -85,10 +115,11 @@ const AddActivity: React.FC<AddActivityProps> = ({ openActivityForm, handleActiv
     const handleProjectChange = (event: any) => {
         setSelectedProject(event.target.value);
         activity.projectId = event.target.value;
-        /* const sp = projects.filter(p => p.id === event.target.value);
-        //activity.project = sp;
+        let sp = projects.filter(p => p.id === event.target.value)[0];
+        activity.project = sp;
         console.log(activity.project);
-        console.log(sp); */
+        console.log(typeof(sp));
+        console.log(typeof(activity.project));
     };
     
     return (
@@ -127,7 +158,7 @@ const AddActivity: React.FC<AddActivityProps> = ({ openActivityForm, handleActiv
                     label="Start Date"
                     showTodayButton
                 />
-                <DateTimePicker style={{ margin: '0.8%', width: '38%' }}
+                {/* <DateTimePicker style={{ margin: '0.8%', width: '38%' }}
                     autoOk
                     value={endDate}
                     disablePast
@@ -136,6 +167,21 @@ const AddActivity: React.FC<AddActivityProps> = ({ openActivityForm, handleActiv
                     }}
                     label="End Date"
                     showTodayButton
+                /> */}
+                <TextField
+                    required
+                    variant="standard"
+                    id="standard"
+                    label="Time Spent"
+                    value={activity.totalHours}
+                    name='totalHours'
+                    onChange={handleInputChange}
+                    type="number"
+                    style={{width:'38%'}}
+                    InputProps={{
+                        endAdornment:
+                        <InputAdornment position="end">Hours</InputAdornment>
+                        }}  
                 />
             </div>
             <div>
@@ -163,17 +209,20 @@ const AddActivity: React.FC<AddActivityProps> = ({ openActivityForm, handleActiv
                     </MenuItem>
                     ))}
                 </TextField>
-                <TextField
-                variant="standard"
-                id="standard"
-                label="Time Spent"
-                value={activity.totalHours}
-                name='totalHours'
-                onChange={handleInputChange}
-                type="string"
-                style={{width:'38%'}}
-                
-                />
+                <TextField style={{ margin: '0.5%', width: '38.5%' }}
+                    id="standard-select-project"
+                    select
+                    label="Select Status"
+                    value={selectedActivityStatus}
+                    onChange={handleStatusChange}
+                    variant="standard"
+                >
+                    {statusOptions.map((statusOption) => (
+                    <MenuItem key={statusOption.id} value={statusOption.id}>
+                      {statusOption.name}
+                    </MenuItem>
+                  ))}
+                </TextField>
             </div>
             <div>
                 <CardActions style={{justifyContent: 'right'}}>

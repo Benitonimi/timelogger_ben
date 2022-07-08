@@ -35,7 +35,7 @@ namespace Timelogger.Repositories.Implementations
             var proj = GetById(id);
             proj.Name = project.Name;
             proj.Description = project.Description;
-            proj.Activity = project.Activity;
+            //proj.Activity = project.Activity;
             proj.Status = project.Status;
             proj.StartDate = project.StartDate;
             proj.EndDate = project.EndDate;

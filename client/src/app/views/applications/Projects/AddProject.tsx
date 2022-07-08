@@ -56,6 +56,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ openProjectForm, handlePr
         setSubmitted(true);
         handleInputCancel();
         projects.push(data);
+        projects.reverse();
     };
 
     const handleInputCancel = () => {
