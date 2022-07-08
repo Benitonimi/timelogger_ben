@@ -11,7 +11,7 @@ import agentProject from 'src/app/api/projects';
 import { Project } from 'src/app/models/project';
 
 
-function ApplicationsTransactions() {
+function ApplicationsProjects() {
 
   const user = {
     name: 'Benito Ponappan ',
@@ -37,7 +37,7 @@ function ApplicationsTransactions() {
   return (
     <>
       <Helmet>
-        <title>Transactions - Applications</title>
+        <title>Projects - Applications</title>
       </Helmet>
       <PageTitleWrapper>
         <Grid container justifyContent="space-between" alignItems="center">
@@ -79,4 +79,4 @@ function ApplicationsTransactions() {
   );
 }
 
-export default ApplicationsTransactions;
+export default ApplicationsProjects;
