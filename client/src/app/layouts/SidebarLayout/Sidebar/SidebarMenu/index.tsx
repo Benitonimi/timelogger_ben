@@ -195,7 +195,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/dashboards/crypto"
+                  to="/dashboards/timelogger"
                   startIcon={<BrightnessLowTwoToneIcon />}
                 >
                   Timelogger Dashboard

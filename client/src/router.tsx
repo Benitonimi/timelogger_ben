@@ -5,6 +5,7 @@ import { RouteObject } from 'react-router';
 import SidebarLayout from 'src/app/layouts/SidebarLayout';
 
 import SuspenseLoader from 'src/app/components/SuspenseLoader';
+import DashboardTimelogger from 'src/app/views/dashboards/Timelogger';
 
 const Loader = (Component: any) => (props: any) =>
   (
@@ -16,7 +17,7 @@ const Loader = (Component: any) => (props: any) =>
 
 // Dashboards
 
-const Crypto = Loader(lazy(() => import('src/app/views/dashboards/Crypto')));
+const Timelogger = Loader(lazy(() => import('src/app/views/dashboards/Timelogger')));
 
 // Applications
 
@@ -35,7 +36,7 @@ const routes: RouteObject[] = [
     children: [
       {
         path: '/',
-        element: <Crypto />
+        element: <Timelogger />
       },
       {
         path: 'overview',
@@ -49,11 +50,11 @@ const routes: RouteObject[] = [
     children: [
       {
         path: '',
-        element: <Navigate to="crypto" replace />
+        element: <Navigate to="timelogger" replace />
       },
       {
-        path: 'crypto',
-        element: <Crypto />
+        path: 'timelogger',
+        element: <DashboardTimelogger />
       },
     ]
   },
