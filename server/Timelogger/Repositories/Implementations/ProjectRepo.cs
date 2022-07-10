@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Timelogger.Entities;
 using System;
 using Timelogger.Repositories.Interfaces;
+using System.Linq;
 
 namespace Timelogger.Repositories.Implementations
 {
@@ -50,6 +51,8 @@ namespace Timelogger.Repositories.Implementations
         public void Delete(Guid id)
         {
             var proj = GetById(id);
+            var activity = _context.Activities?.Where(x => x.ProjectId == proj.Id).ToList();
+            activity?.ForEach(x => _context.Remove(x));
             _context.Projects.Remove(proj);
             _context.SaveChanges();
         }

@@ -1,6 +1,6 @@
 import { Project } from "./project";
 
-export type ActivityStatus = 'completed' | 'pending' | 'failed';
+export type ActivityStatus = 'completed' | 'pending' | 'failed' | '';
 
 export interface Activity {
     id: string;

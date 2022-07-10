@@ -97,7 +97,7 @@ const RecentActivitiesTable: FC<RecentActivitiesTableProps> = ({ activities: act
   const [limit, setLimit] = useState<number>(5);
   
   const [filters, setFilters] = useState<Filters>({
-    status: 'completed'
+    status: ''
   });
 
   const statusOptions = [
@@ -119,13 +119,11 @@ const RecentActivitiesTable: FC<RecentActivitiesTableProps> = ({ activities: act
     }
   ];
 
-  const handleStatusChange = (
-    e: SelectChangeEvent
-    ): void => {
-    let value: any = null;
+  const handleStatusChange = (e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>): void => {
+    let value = '' as ActivityStatus;
 
     if (e.target.value !== 'all') {
-      value = e.target.value;
+      value = e.target.value as ActivityStatus;
     }
 
     setFilters((prevFilters) => ({

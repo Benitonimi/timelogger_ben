@@ -98,7 +98,7 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
   const [limit, setLimit] = useState<number>(5);
   
   const [filters, setFilters] = useState<Filters>({
-    status: 'completed'
+    status: ''
   });
 
   const statusOptions = [
@@ -120,13 +120,11 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
     }
   ];
 
-  const handleStatusChange = (
-    e: SelectChangeEvent
-    ): void => {
-    let value: any = null;
+  const handleStatusChange = (e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>): void => {
+    let value = '' as ProjectStatus;
 
     if (e.target.value !== 'all') {
-      value = e.target.value;
+      value = e.target.value as ProjectStatus;
     }
 
     setFilters((prevFilters) => ({
@@ -163,7 +161,7 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
 
   const handleDeleteProject = (projId: string, index: number) => {
     agentProject.Projects.delete(projId);
-    setprojectList([...projects.splice(index, 1)]);
+    setprojectList(projects.splice(index, 1));
     projects = projectList.slice();
   }
 
