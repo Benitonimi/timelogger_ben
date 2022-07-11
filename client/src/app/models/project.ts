@@ -20,7 +20,7 @@ export interface Project {
     status: ProjectStatus;
     startDate: Date;
     endDate: Date;
-    currency: number;
+    estimatedCost: number;
 }
 
 //startDate: "2022-06-19T00:00:00+05:30"

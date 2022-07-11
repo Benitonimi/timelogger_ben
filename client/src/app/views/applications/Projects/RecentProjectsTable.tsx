@@ -300,7 +300,7 @@ const RecentProjectsTable: FC<RecentProjectsTableProps> = ({ projects }) => {
                       gutterBottom
                       noWrap
                     >
-                      {project.currency}
+                      {project.estimatedCost}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">

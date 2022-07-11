@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Timelogger.Entities;
+using Timelogger.Entities.Dto;
 
 namespace Timelogger
 {
@@ -17,5 +18,7 @@ namespace Timelogger
 		public DbSet<RolePrivilege> RolePrivileges { get; set; }
 		public DbSet<Project> Projects { get; set; }
 		public DbSet<Activity> Activities { get; set; }
+		public DbSet<ProjectDetailsDto> ProjectsDto { get; set; }
+		public DbSet<ActivityDetailsDto> ActivitiesDto { get; set; }
 	}
 }

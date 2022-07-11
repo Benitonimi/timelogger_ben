@@ -40,7 +40,10 @@ namespace Timelogger.Api
 			});
 
 			services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase("Benito In-house"));
-			services.AddControllers().AddNewtonsoftJson();
+			services.AddControllers()
+				.AddNewtonsoftJson()
+				.AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
 			services.AddMvc(options => options.EnableEndpointRouting = false);
 
 			services.AddTransient<IProjectRepo, ProjectRepo>();
@@ -78,25 +81,30 @@ namespace Timelogger.Api
 		private static void SeedDatabase(IServiceScope scope)
 		{
 			var context = scope.ServiceProvider.GetService<ApiContext>();
+
 			var projects = new List<Project>()
 			{
-				new Project { Id = new System.Guid(), Name = "project 1", Description= "Computer Programming", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = (int)2009.12 },
-				new Project { Id = new System.Guid(), Name = "project 2", Description= "IT Revolution", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = (int)2009.12 },
-				new Project { Id = new System.Guid(), Name = "project 3", Description= "Computer Architecture and Organisation", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = (int)2009.12 },
-				new Project { Id = new System.Guid(), Name = "project 4", Description= "Database Systems", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = (int)2009.12 },
-				new Project { Id = new System.Guid(), Name = "project 5", Description= "Operating Systems", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = (int)2009.12 },
-				new Project { Id = new System.Guid(), Name = "project 6", Description= "Foundations of Computer Systems", Status = "pending", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = (int)2009.12 },
-				new Project { Id = new System.Guid(), Name = "project 7", Description= "Computer Networks", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = (int)2009.12 },
-				new Project { Id = new System.Guid(), Name = "project 8", Description= "Multimedia Applications", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = (int)2009.12 },
-				new Project { Id = new System.Guid(), Name = "project 9", Description= "Information Technology", Status = "pending", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), Currency = (int)2009.12 },
+				new Project { Name = "project 1", Description= "Computer Programming", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), EstimatedCost = (int)2009.12 },
+				new Project { Name = "project 2", Description= "IT Revolution", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(4), EstimatedCost = (int)2009.12 },
+				new Project { Name = "project 3", Description= "Computer Architecture and Organisation", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(1), EstimatedCost = (int)2009.12 },
+				new Project { Name = "project 4", Description= "Database Systems", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(15), EstimatedCost = (int)2009.12 },
+				new Project { Name = "project 5", Description= "Operating Systems", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(25), EstimatedCost = (int)2009.12 },
+				new Project { Name = "project 6", Description= "Foundations of Computer Systems", Status = "pending", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(38), EstimatedCost = (int)2009.12 },
+				new Project { Name = "project 7", Description= "Computer Networks", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(35), EstimatedCost = (int)2009.12 },
+				new Project { Name = "project 8", Description= "Multimedia Applications", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(65), EstimatedCost = (int)2009.12 },
+				new Project { Name = "project 9", Description= "Information Technology", Status = "pending", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(7), EstimatedCost = (int)2009.12 },
 			};
 
 			projects.ForEach(x => context.Projects.Add(x));
-
+			var projectX = new Project { 
+					Name = "project 10", Description= "DevOps", Status = "completed", StartDate = System.DateTime.Today.AddDays(-10), EndDate = System.DateTime.Today.AddDays(15), EstimatedCost = (int)608.12 
+					};
 			var activities = new List<Activity>()
 			{
-				new Activity { Id = new System.Guid(), Name = "Task 1", Description= "Code Analysis", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), TotalHours = 8 },
-				new Activity { Id = new System.Guid(), Name = "Task 2", Description= "Debuging", Status = "completed", StartDate = System.DateTime.Today.AddDays(-35), EndDate = System.DateTime.Today.AddDays(25), TotalHours = 5 },
+				new Activity { Name = "Task 1", Description= "Code Analysis", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), TotalHours = 8 },
+				new Activity { Name = "Task 2", Description= "Debuging", Status = "completed", StartDate = System.DateTime.Today.AddDays(-35), EndDate = System.DateTime.Today.AddDays(25), TotalHours = 5 },
+				new Activity { Name = "Task 2", Description= "Debuging", Status = "completed", StartDate = System.DateTime.Today.AddDays(-35), EndDate = System.DateTime.Today.AddDays(25), TotalHours = 3, Project = projectX },
+				new Activity { Name = "Task 2", Description= "Debuging", Status = "completed", StartDate = System.DateTime.Today.AddDays(-35), EndDate = System.DateTime.Today.AddDays(25), TotalHours = 9, Project = projectX },
 			};
 
 			activities.ForEach(x => context.Activities.Add(x));

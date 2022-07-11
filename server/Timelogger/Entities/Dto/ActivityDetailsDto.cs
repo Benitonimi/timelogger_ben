@@ -1,11 +1,8 @@
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Timelogger.Entities
+namespace Timelogger.Entities.Dto
 {
-    public class Activity : _EntityBase
+    public class ActivityDetailsDto
     {
         [JsonProperty("id")]
         public Guid Id { get; set; }
@@ -17,7 +14,6 @@ namespace Timelogger.Entities
 		public Guid? ProjectId { get; set; }
         [JsonProperty("status")]
 		public string Status { get; set; }
-        [ForeignKey("ProjectId")]
         [JsonProperty("project")]
         public Project Project { get; set; }
         [JsonProperty("totalHours")]
@@ -26,7 +22,5 @@ namespace Timelogger.Entities
 		public DateTime? StartDate { get; set; }
 		[JsonProperty("endDate")]
 		public DateTime? EndDate { get; set; }
-        //public ICollection<User> UserList { get; set; }
-
     }
 }

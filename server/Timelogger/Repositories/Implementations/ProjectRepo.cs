@@ -39,7 +39,7 @@ namespace Timelogger.Repositories.Implementations
             proj.Status = project.Status;
             proj.StartDate = project.StartDate;
             proj.EndDate = project.EndDate;
-            proj.Currency = project.Currency;
+            proj.EstimatedCost = project.EstimatedCost;
 
             //_context.Projects.Attach(project);
             //_context.Entry(project).State = EntityState.Modified;

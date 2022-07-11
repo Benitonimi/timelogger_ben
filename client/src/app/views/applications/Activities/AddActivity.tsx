@@ -35,7 +35,7 @@ const AddActivity: React.FC<AddActivityProps> = ({ openActivityForm, handleActiv
             status: 'pending' as ProjectStatus,
             startDate: new Date(),
             endDate: new Date(),
-            currency: 0
+            estimatedCost: 0
         },
         totalHours: 0,
         startDate: new Date(),

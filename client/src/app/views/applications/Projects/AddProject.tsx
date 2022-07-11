@@ -28,7 +28,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ openProjectForm, handlePr
         status: 'completed' as ProjectStatus, // used type assertion
         startDate: new Date(),
         endDate: new Date(),
-        currency: 0
+        estimatedCost: 0
     }; 
 
     const [project, setProject] = useState<Project>(initialProjectState);
@@ -48,7 +48,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ openProjectForm, handlePr
             status: project.status,
             startDate: project.startDate,
             endDate: project.endDate,
-            currency: project.currency
+            estimatedCost: project.estimatedCost
         };
         data.id = uuid();
         agentProject.Projects.create(data);
@@ -138,8 +138,8 @@ const CreateProject: React.FC<CreateProjectProps> = ({ openProjectForm, handlePr
                 variant="standard"
                 id="standard"
                 label="Amount"
-                value={project.currency}
-                name='currency'
+                value={project.estimatedCost}
+                name='estimatedCost'
                 onChange={handleInputChange}
                 type="number"
                 style={{width:'38%'}}
