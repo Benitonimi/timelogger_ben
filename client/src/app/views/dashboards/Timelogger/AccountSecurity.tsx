@@ -60,7 +60,7 @@ function AccountSecurity() {
       <List disablePadding>
         <ListItem
           sx={{
-            py: 2
+            py: 3
           }}
         >
           <ListItemAvatar>
@@ -90,7 +90,7 @@ function AccountSecurity() {
         <Divider />
         <ListItem
           sx={{
-            py: 2
+            py: 3
           }}
         >
           <ListItemAvatar>
@@ -120,7 +120,7 @@ function AccountSecurity() {
         <Divider />
         <ListItem
           sx={{
-            py: 2
+            py: 3
           }}
         >
           <ListItemAvatar>

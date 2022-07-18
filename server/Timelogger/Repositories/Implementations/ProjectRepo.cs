@@ -27,12 +27,14 @@ namespace Timelogger.Repositories.Implementations
         }
         public void Add(Project Project)
         {
+            ValidateModel(Project);
             _context.Projects.Add(Project);
             _context.SaveChanges();
         }
 
         public void Update(Guid id, Project project)
         {
+            ValidateModel(project);
             var proj = GetById(id);
             proj.Name = project.Name;
             proj.Description = project.Description;
@@ -55,6 +57,13 @@ namespace Timelogger.Repositories.Implementations
             activity?.ForEach(x => _context.Remove(x));
             _context.Projects.Remove(proj);
             _context.SaveChanges();
+        }
+
+        private void ValidateModel(Project project)
+        {
+            if(String.IsNullOrEmpty(project.Name)) throw new Exception("Project name cannot be empty");
+            if(project.StartDate == DateTime.MinValue || project.EndDate == DateTime.MinValue) throw new Exception("Project start/end date cannot be empty");
+            if(project.EndDate <= project.StartDate) throw new Exception("Project end date should be greater than start date");
         }
     }
 }

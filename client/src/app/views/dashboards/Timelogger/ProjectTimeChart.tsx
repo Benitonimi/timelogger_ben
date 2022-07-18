@@ -10,11 +10,16 @@ import {
   ListItem,
   ListItemText,
   List,
-  ListItemAvatar
+  ListItemAvatar,
+  Avatar,
+  CardHeader
 } from '@mui/material';
 import Text from 'src/app/components/Text';
 import Chart from 'react-apexcharts';
 import type { ApexOptions } from 'apexcharts';
+import { ProjectGraph } from 'src/app/models/project_graph';
+import { FC } from 'react';
+import LocalActivityTwoTone from '@mui/icons-material/LocalActivityTwoTone';
 
 
 const ListItemAvatarWrapper = styled(ListItemAvatar)(
@@ -43,8 +48,26 @@ const ListItemAvatarWrapper = styled(ListItemAvatar)(
 `
 );
 
-function ProjectTimeChart() {
+export interface ProjectTimeChartProps{
+  projectGraphDetails: ProjectGraph[];
+}
+
+const ProjectTimeChart: FC<ProjectTimeChartProps> = ({ projectGraphDetails }) => {
   const theme = useTheme();
+
+  const chartSeries = projectGraphDetails.map((prj) => {
+    return Math.round((prj.projectPercent + Number.EPSILON) * 100) / 100
+  });
+
+  const activeProjectItem = projectGraphDetails.map((prj) => {
+    return prj.projectName
+  });
+
+  const colorSeries = [
+    '#ff9900', '#1c81c2', '#CC6633', '#5c6ac0', '#CCCCCC',
+    '#CC6678', '#5c6ab4', '#CCCCBB', '#ff9955', '#1c81q3', 
+    '#ff9900', '#1c81c2', '#CC6633', '#5c6ac0', '#CCCCCC',
+]
 
   const chartOptions: ApexOptions = {
     chart: {
@@ -61,11 +84,11 @@ function ProjectTimeChart() {
         }
       }
     },
-    colors: ['#ff9900', '#1c81c2', '#333', '#5c6ac0'],
+    colors: colorSeries,
     dataLabels: {
       enabled: true,
-      formatter: function (val) {
-        return val + '%';
+      formatter: function (val: number) {
+        return val.toFixed(2)+ '%';
       },
       style: {
         colors: [theme.colors.alpha.trueWhite[100]]
@@ -98,7 +121,7 @@ function ProjectTimeChart() {
     fill: {
       opacity: 1
     },
-    labels: ['Bitcoin', 'Ripple', 'Cardano', 'Ethereum'],
+    labels: activeProjectItem,
     legend: {
       labels: {
         colors: theme.colors.alpha.trueWhite[100]
@@ -113,12 +136,10 @@ function ProjectTimeChart() {
     }
   };
 
-  const chartSeries = [10, 20, 25, 45];
-
-  const activeProjectItem = ["Project 1", "Project 2", "Project 3", "Project 4", "Project 5", ];
-
   return (
     <Card>
+      <CardHeader title="Top 3 Projects" />
+      <Divider />
       <Grid spacing={0} container>
         <Grid
           sx={{
@@ -162,17 +183,16 @@ function ProjectTimeChart() {
                     width: '100%'
                   }}
                 >
-                  {activeProjectItem.map((item, index) => (
-                    (index < 4) == true ?
+                  {projectGraphDetails.map((item, index) => (
+                    (index < 3) == true ?
                     <ListItem disableGutters key={index}>
                       <ListItemAvatarWrapper>
-                        <img
-                          alt="BTC"
-                          src="/static/images/placeholders/logo/bitcoin.png"
-                        />
+                        <Avatar>
+                          <LocalActivityTwoTone color="primary"/>
+                        </Avatar>
                       </ListItemAvatarWrapper>
                       <ListItemText
-                        primary={item}
+                        primary={item.projectName}
                         primaryTypographyProps={{ variant: 'h5', noWrap: true }}
                         secondary={""}
                         secondaryTypographyProps={{
@@ -182,9 +202,9 @@ function ProjectTimeChart() {
                       />
                       <Box>
                         <Typography align="right" variant="h4" noWrap>
-                          20%
+                          {item.projectPercent.toFixed(2)}%
                         </Typography>
-                        <Text color="success">+2.54%</Text>
+                        <Text color="success">+{item.completedActivityPercent.toFixed(2)}%</Text>
                       </Box>
                     </ListItem>
                     : ''
@@ -198,6 +218,6 @@ function ProjectTimeChart() {
       </Grid>
     </Card>
   );
-}
+};
 
 export default ProjectTimeChart;

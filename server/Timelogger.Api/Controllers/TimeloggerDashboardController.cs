@@ -31,6 +31,7 @@ namespace Timelogger.Api.Controllers
         {
             var projects = _projectRepo.GetAll();
             var activities = _activityRepo.GetAll();
+            var projectCount_Active = projects.Count(x => x.Status == "pending");
 
             var projectDetails = projects.Select(x => new ProjectDetailsDto{
                 Id = x.Id,
@@ -40,23 +41,70 @@ namespace Timelogger.Api.Controllers
                 EndDate = x.EndDate,
                 EstimatedCost = x.EstimatedCost,
                 TotalProjectDays = CalculateTotalProjectDays(x.Id, x),
-                ActiveProjectCount = CountActiveProjects(projects.ToList()),
                 Activities = activities.Where(p => p.ProjectId.Equals(x.Id)).ToList()               
             }).ToList();
 
             return projectDetails;
         }
 
+        // GET api/projectsummary
+        [HttpGet("/api/projectsummary")]
+        public ProjectSummaryDto GetProjectSummary()
+        {
+            var projects = _projectRepo.GetAll();
+            var activities = _activityRepo.GetAll();
+
+            var projSummary = new ProjectSummaryDto{
+                TotalProjectCount = projects.Count(),
+                ActiveProjectCount = projects.Count(x => x.Status == "pending"),
+                CompletedProjectCount = projects.Count(x => x.Status == "completed"),
+                TotalProjectRevenue = projects.Sum(x => x.EstimatedCost),
+                TotalProjectCost = projects.Sum(x => x.EstimatedCost),
+                TotalActivityCount = activities.Count(),
+                ActiveActivityCount = activities.Count(x => x.Status == "pending"),
+                CompletedActivityCount = activities.Count(x => x.Status == "completed"),                
+            };
+
+            return projSummary;
+        }
+
+        //GET api/projectratio
+        [HttpGet("/api/projectratio")]
+        public List<ProjectGraphDto> GetProjectRatio()
+        {
+            var projects = _projectRepo.GetAll();
+            var activities = _activityRepo.GetAll();
+
+            var projectGraphDetails = projects?.Select(x => new ProjectGraphDto{
+                ProjectName = x.Name,
+                ProjectPercent = CalculateProjectRatio(x.Id),
+                ActivityCount = activities.Count(act => act.ProjectId == x.Id),
+                CompletedActivityCount = activities.Count(act => act.ProjectId == x.Id & act.Status == "completed"),
+                CompletedActivityPercent = CalculateActivityRatioByProject(x.Id)
+            }).OrderByDescending(y => y.ActivityCount).ToList();
+
+            return projectGraphDetails;
+        }
+
+        
         private int CalculateTotalProjectDays(Guid projectId, Project project)
         {
             var totalProjectDays = (project.EndDate - project.StartDate).TotalDays;
             return (int) totalProjectDays;
         }
 
-        private int CountActiveProjects(List<Project> projects)
+        private decimal CalculateProjectRatio(Guid projectId)
         {
-            var activeProject = projects.Where(x => x.Status == "pending").ToList();
-            return activeProject.Count;
+            var activities = _activityRepo.GetAll();
+            var activityCount =  activities?.Count(x => x.ProjectId == projectId);
+            return (decimal) activityCount/activities.Count()*100;
+        }
+
+        private decimal CalculateActivityRatioByProject(Guid projectId)
+        {
+            var activities = _activityRepo.GetAll();
+            var activityCount =  activities?.Count(x => x.ProjectId == projectId && x.Status == "completed");
+            return (decimal) activityCount/activities.Count()*100;
         }
     }
 }

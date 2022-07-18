@@ -27,6 +27,7 @@ namespace Timelogger.Repositories.Implementations
         }
         public void Add(Activity activity)
         {
+            ValidateModel(activity);
             if(!string.IsNullOrEmpty(activity.ProjectId?.ToString()))
             {
                 AssociateActivityToProject(activity.ProjectId, activity);
@@ -61,6 +62,13 @@ namespace Timelogger.Repositories.Implementations
         private void AssociateActivityToProject(Guid? projectId, Activity activity)
         {
             activity.Project = _context.Projects.Find(projectId);
+        }
+
+        private void ValidateModel(Activity activity)
+        {
+            if(String.IsNullOrEmpty(activity.Name)) throw new Exception("Activity name cannot be empty");
+            if(activity.StartDate == DateTime.MinValue) throw new Exception("Activity start/end date cannot be empty");
+            if(String.IsNullOrEmpty(activity.ProjectId.ToString())) throw new Exception("Activity should be mapped to a project");
         }
     }
 }

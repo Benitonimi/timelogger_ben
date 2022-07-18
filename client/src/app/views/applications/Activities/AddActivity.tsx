@@ -43,14 +43,15 @@ const AddActivity: React.FC<AddActivityProps> = ({ openActivityForm, handleActiv
     }; 
 
     const [activity, setActivity] = useState<Activity>(initialActivityState);
-    const [_submitted, setSubmitted] = useState<boolean>(false);
+    //const [_submitted, setSubmitted] = useState<boolean>(false);
 
+      
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setActivity({ ...activity, [name]: value });
     };
 
-    const handleActivitySubmit = () => {
+    const handleActivitySubmit = async () => {
         var data = {
             id: activity.id,
             name: activity?.name,
@@ -63,11 +64,16 @@ const AddActivity: React.FC<AddActivityProps> = ({ openActivityForm, handleActiv
             endDate: new Date()
         };
         data.id = uuid();
-        agentActivity.Activities.create(data);
-        setSubmitted(true);
-        handleInputCancel();
-        activities.push(data);
-        activities.reverse();
+        await agentActivity.Activities.create(data).then(() => {
+            handleInputCancel();
+            activities.push(data);
+            activities.reverse();
+
+        }
+
+        )
+        //setSubmitted(true);
+       
     };
 
 

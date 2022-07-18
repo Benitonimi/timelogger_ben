@@ -12,6 +12,11 @@ import {
   import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
   import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
   import AccountBalanceWalletTwoTone from '@mui/icons-material/AccountBalanceWalletTwoTone';
+  import { ProjectDetailsDto} from 'src/app/models/time_dashboard';
+  import { ProjectSummary  as ProjectDashboardSummary} from 'src/app/models/project_summary';
+  
+  import { FC } from 'react';
+
   const AvatarPrimary = styled(Avatar)(
     ({ theme }) => `
         background: ${theme.colors.primary.lighter};
@@ -20,8 +25,13 @@ import {
         height: ${theme.spacing(7)};
   `
   );
+
+  export interface ProjectSummaryProps {
+    projectDetails : ProjectDetailsDto[];
+    projectSummary : ProjectDashboardSummary | undefined;
+  }
   
-  function ProjectSummary() {
+  const ProjectSummary: FC<ProjectSummaryProps> = ({ projectDetails, projectSummary }) => {
     const theme = useTheme();
 
     return(
@@ -44,7 +54,7 @@ import {
                     >
                       Total
                     </Typography>
-                    <Typography variant="h2">485</Typography>
+                    <Typography variant="h2">{projectDetails.length}</Typography>
                   </Box>
                   <Box>
                     <Typography
@@ -54,7 +64,7 @@ import {
                     >
                       Active
                     </Typography>
-                    <Typography variant="h2">8</Typography>
+                    <Typography variant="h2">{projectSummary?.activeProjectCount}</Typography>
                   </Box>
                 </Box>
               </Box>
@@ -79,7 +89,7 @@ import {
                     >
                       Total
                     </Typography>
-                    <Typography variant="h2">64</Typography>
+                    <Typography variant="h2">{projectSummary?.totalActivityCount}</Typography>
                   </Box>
                   <Box>
                     <Typography
@@ -89,7 +99,7 @@ import {
                     >
                       Active
                     </Typography>
-                    <Typography variant="h2">15</Typography>
+                    <Typography variant="h2">{projectSummary?.activeActivityCount}</Typography>
                   </Box>
                 </Box>
               </Box>
@@ -114,7 +124,7 @@ import {
                       >
                         Total
                       </Typography>
-                      <Typography variant="h2">$1.4M</Typography>
+                      <Typography variant="h2">${projectSummary?.totalProjectRevenue}M</Typography>
                     </Box>
                     <Box>
                       <Typography
@@ -149,7 +159,7 @@ import {
                       >
                         Total
                       </Typography>
-                      <Typography variant="h2">$1M</Typography>
+                      <Typography variant="h2">${projectSummary?.totalProjectCost}M</Typography>
                     </Box>
                     <Box>
                       <Typography
@@ -167,6 +177,6 @@ import {
           </Grid>
         </Grid>
     );
-  }
+  };
   
   export default ProjectSummary;

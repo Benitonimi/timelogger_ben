@@ -93,18 +93,17 @@ namespace Timelogger.Api
 				new Project { Name = "project 7", Description= "Computer Networks", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(35), EstimatedCost = (int)2009.12 },
 				new Project { Name = "project 8", Description= "Multimedia Applications", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(65), EstimatedCost = (int)2009.12 },
 				new Project { Name = "project 9", Description= "Information Technology", Status = "pending", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(7), EstimatedCost = (int)2009.12 },
+				new Project { Name = "project 10", Description= "DevOps", Status = "completed", StartDate = System.DateTime.Today.AddDays(-10), EndDate = System.DateTime.Today.AddDays(15), EstimatedCost = (int)608.12 }
 			};
 
 			projects.ForEach(x => context.Projects.Add(x));
-			var projectX = new Project { 
-					Name = "project 10", Description= "DevOps", Status = "completed", StartDate = System.DateTime.Today.AddDays(-10), EndDate = System.DateTime.Today.AddDays(15), EstimatedCost = (int)608.12 
-					};
+
 			var activities = new List<Activity>()
 			{
-				new Activity { Name = "Task 1", Description= "Code Analysis", Status = "completed", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), TotalHours = 8 },
-				new Activity { Name = "Task 2", Description= "Debuging", Status = "completed", StartDate = System.DateTime.Today.AddDays(-35), EndDate = System.DateTime.Today.AddDays(25), TotalHours = 5 },
-				new Activity { Name = "Task 2", Description= "Debuging", Status = "completed", StartDate = System.DateTime.Today.AddDays(-35), EndDate = System.DateTime.Today.AddDays(25), TotalHours = 3, Project = projectX },
-				new Activity { Name = "Task 2", Description= "Debuging", Status = "completed", StartDate = System.DateTime.Today.AddDays(-35), EndDate = System.DateTime.Today.AddDays(25), TotalHours = 9, Project = projectX },
+				new Activity { Name = "Task 1", Description= "Code Analysis", Status = "pending", StartDate = System.DateTime.Today.AddDays(-5), EndDate = System.DateTime.Today.AddDays(5), TotalHours = 8, Project = projects[0] },
+				new Activity { Name = "Task 2", Description= "Debuging", Status = "completed", StartDate = System.DateTime.Today.AddDays(-35), EndDate = System.DateTime.Today.AddDays(25), TotalHours = 5, Project = projects[1] },
+				new Activity { Name = "Task 2", Description= "Debuging", Status = "pending", StartDate = System.DateTime.Today.AddDays(-35), EndDate = System.DateTime.Today.AddDays(25), TotalHours = 3, Project = projects[9] },
+				new Activity { Name = "Task 2", Description= "Debuging", Status = "completed", StartDate = System.DateTime.Today.AddDays(-35), EndDate = System.DateTime.Today.AddDays(25), TotalHours = 9, Project = projects[9] },
 			};
 
 			activities.ForEach(x => context.Activities.Add(x));
