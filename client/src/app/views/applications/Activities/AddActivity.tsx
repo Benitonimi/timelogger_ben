@@ -51,7 +51,7 @@ const AddActivity: React.FC<AddActivityProps> = ({ openActivityForm, handleActiv
         setActivity({ ...activity, [name]: value });
     };
 
-    const handleActivitySubmit = async () => {
+    const handleActivitySubmit = () => {
         var data = {
             id: activity.id,
             name: activity?.name,
@@ -64,16 +64,10 @@ const AddActivity: React.FC<AddActivityProps> = ({ openActivityForm, handleActiv
             endDate: new Date()
         };
         data.id = uuid();
-        await agentActivity.Activities.create(data).then(() => {
-            handleInputCancel();
-            activities.push(data);
-            activities.reverse();
-
-        }
-
-        )
-        //setSubmitted(true);
-       
+        agentActivity.Activities.create(data)
+        handleInputCancel();
+        activities.push(data);
+        activities.reverse();
     };
 
 
